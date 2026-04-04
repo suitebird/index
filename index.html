@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SuiteBird — Beta Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --blue:#3A7FD5;--blue-l:#E8F2FB;--blue-d:#2260B0;
+  --purple:#4A2080;--purple-l:#EDE8F5;
+  --gold:#B8935A;--gold-l:#F5ECD8;
+  --green:#2D7A4F;--green-l:#E8F5EE;
+  --ink:#1a1620;--ink2:#3d3548;--muted:#7a728a;
+  --warm:#F6F8FC;--warmer:#EDF3FA;--white:#fff;
+  --border:rgba(58,127,213,0.12);--border-med:rgba(58,127,213,0.2);
+  --r:10px;--r-lg:14px;--r-xl:20px;
+  --com:#3A7FD5;--com-l:#E8F2FB;--com-d:#2260B0;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--warm);color:var(--ink);min-height:100vh;}
+.app{max-width:1100px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;}
+.screen{display:none;flex-direction:column;flex:1;animation:fu 0.3s ease both;}
+.screen.active{display:flex;}
+@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* BETA NAV */
+.beta-nav{background:var(--ink);color:white;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.beta-logo{display:flex;align-items:center;gap:8px;}
+.beta-logo-text{font-size:15px;font-weight:500;}
+.beta-badge{background:#FAC75A;color:var(--ink);border-radius:20px;padding:3px 10px;font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;}
+.beta-flows{display:flex;gap:6px;flex-wrap:wrap;}
+.beta-flow-btn{background:rgba(255,255,255,0.08);border:0.5px solid rgba(255,255,255,0.15);border-radius:8px;padding:6px 14px;font-size:12px;font-weight:500;color:rgba(255,255,255,0.85);cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;}
+.beta-flow-btn:hover{background:rgba(255,255,255,0.15);}
+.beta-flow-btn.active{background:var(--blue);border-color:var(--blue);color:white;}
+
+/* AUTH */
+.auth-wrap{min-height:80vh;display:flex;align-items:center;justify-content:center;padding:20px;flex-direction:column;gap:14px;}
+.auth-card{background:var(--white);border:0.5px solid var(--border);border-radius:var(--r-lg);padding:32px;width:100%;max-width:400px;}
+.auth-logo{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--blue);margin-bottom:2px;}
+.auth-sub{font-size:12px;color:var(--muted);margin-bottom:20px;}
+.trial-badge{display:inline-block;background:var(--blue-l);color:var(--blue-d);font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;margin-bottom:16px;}
+.form-group{margin-bottom:12px;}
+.form-label{font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;display:block;}
+.form-input{background:var(--warm);border:0.5px solid var(--border-med);border-radius:9px;padding:10px 13px;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--ink);width:100%;transition:border-color 0.2s;}
+.form-input:focus{outline:none;border-color:var(--blue);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.btn-primary{background:var(--blue);color:white;border:none;border-radius:var(--r);padding:12px 20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;width:100%;transition:all 0.2s;margin-top:4px;}
+.btn-primary:hover{background:var(--blue-d);}
+.btn-secondary{background:transparent;color:var(--ink);border:0.5px solid var(--border-med);border-radius:var(--r);padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;width:100%;margin-top:6px;}
+.auth-footer{font-size:12px;color:var(--muted);text-align:center;margin-top:12px;}
+.auth-footer a{color:var(--blue);cursor:pointer;}
+.role-grid{display:flex;flex-direction:column;gap:7px;margin-bottom:16px;}
+.role-btn{background:var(--warm);border:0.5px solid var(--border-med);border-radius:var(--r);padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:all 0.2s;text-align:left;font-family:'DM Sans',sans-serif;width:100%;}
+.role-btn:hover{border-color:var(--blue);background:var(--blue-l);}
+.role-icon{font-size:18px;width:32px;text-align:center;flex-shrink:0;}
+.role-name{font-size:13px;font-weight:500;}
+.role-desc{font-size:11px;color:var(--muted);}
+.role-tag{margin-left:auto;font-size:10px;font-weight:500;padding:2px 8px;border-radius:20px;flex-shrink:0;}
+.tag-full{background:var(--green-l);color:var(--green);}
+.tag-mgmt{background:var(--gold-l);color:var(--gold);}
+.tag-ops{background:var(--blue-l);color:var(--blue-d);}
+
+/* ONBOARDING */
+.ob-wrap{min-height:80vh;display:flex;align-items:center;justify-content:center;padding:20px;}
+.ob-card{background:var(--white);border:0.5px solid var(--border);border-radius:var(--r-lg);padding:32px;width:100%;max-width:480px;}
+.progress-bar{height:3px;background:var(--border);border-radius:2px;margin-bottom:22px;overflow:hidden;}
+.progress-fill{height:100%;background:var(--blue);border-radius:2px;transition:width 0.4s;}
+.step-label{font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+.step-title{font-family:'Cormorant Garamond',serif;font-size:20px;margin-bottom:4px;}
+.step-desc{font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.6;}
+.hint-box{background:var(--blue-l);border-radius:9px;padding:11px 14px;font-size:12px;color:var(--blue-d);line-height:1.7;margin-bottom:14px;}
+.counter-wrap{display:flex;gap:10px;margin-bottom:14px;}
+.counter-card{flex:1;background:var(--warm);border:0.5px solid var(--border-med);border-radius:var(--r);padding:13px;text-align:center;}
+.counter-label-top{font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;}
+.counter-controls{display:flex;align-items:center;justify-content:center;gap:9px;}
+.counter-btn{width:28px;height:28px;border-radius:50%;background:var(--white);border:0.5px solid var(--border-med);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;}
+.counter-val{font-family:'Cormorant Garamond',serif;font-size:24px;min-width:32px;text-align:center;}
+.counter-sub{font-size:10px;color:var(--muted);margin-top:4px;}
+.option-btn{background:var(--warm);border:0.5px solid var(--border-med);border-radius:var(--r);padding:11px 13px;cursor:pointer;display:flex;align-items:center;gap:9px;margin-bottom:7px;transition:all 0.2s;font-family:'DM Sans',sans-serif;text-align:left;width:100%;}
+.option-btn:hover,.option-btn.selected{border-color:var(--blue);background:var(--blue-l);border-width:1.5px;}
+.ob-success{display:flex;align-items:center;gap:9px;padding:10px 13px;background:var(--blue-l);border-radius:8px;margin-bottom:7px;font-size:13px;color:var(--blue-d);font-weight:500;}
+
+/* DASHBOARD */
+.dash-shell{display:flex;flex-direction:column;flex:1;}
+.topbar{background:linear-gradient(135deg,var(--blue-d),var(--blue));color:white;padding:0 22px;height:50px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.topbar-left{display:flex;align-items:center;gap:8px;}
+.topbar-logo{font-family:'Cormorant Garamond',serif;font-size:17px;}
+.topbar-community{font-size:12px;opacity:0.65;}
+.topbar-right{display:flex;align-items:center;gap:10px;}
+.trial-pill{background:rgba(255,255,255,0.18);border-radius:20px;padding:3px 10px;font-size:11px;}
+.user-pill{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.12);border-radius:20px;padding:3px 10px 3px 4px;cursor:pointer;}
+.user-av{width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;}
+.user-nm{font-size:12px;}
+.dash-body{display:flex;flex:1;}
+.sidebar{width:196px;background:var(--white);border-right:0.5px solid var(--border);padding:14px 0;flex-shrink:0;}
+.nav-section{font-size:9px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);padding:0 15px;margin:12px 0 4px;}
+.nav-item{display:flex;align-items:center;gap:7px;padding:8px 15px;font-size:13px;cursor:pointer;transition:all 0.15s;border-left:2px solid transparent;color:var(--ink);}
+.nav-item:hover{background:var(--warmer);color:var(--blue);}
+.nav-item.active{background:var(--blue-l);color:var(--blue);border-left-color:var(--blue);font-weight:500;}
+.nav-icon{font-size:13px;width:17px;text-align:center;}
+.nav-badge{margin-left:auto;background:var(--gold);color:white;border-radius:20px;padding:1px 6px;font-size:10px;font-weight:500;}
+.dash-main{flex:1;overflow-y:auto;padding:22px;}
+.dash-view{display:none;}
+.dash-view.active{display:block;}
+.page-title{font-family:'Cormorant Garamond',serif;font-size:21px;margin-bottom:2px;}
+.page-sub{font-size:13px;color:var(--muted);margin-bottom:18px;}
+.metrics-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:20px;}
+.m-card{background:var(--white);border:0.5px solid var(--border);border-radius:var(--r);padding:14px;}
+.m-card.hl{background:var(--blue-l);border-color:var(--blue);}
+.m-label{font-size:10px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+.m-card.hl .m-label{color:var(--blue-d);}
+.m-val{font-family:'Cormorant Garamond',serif;font-size:24px;line-height:1;}
+.m-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+.m-up{color:var(--green);font-weight:500;}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;}
+.section-title{font-size:13px;font-weight:500;}
+.btn-sm{background:var(--blue);color:white;border:none;border-radius:8px;padding:7px 14px;font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.btn-sm:hover{background:var(--blue-d);}
+.btn-sm-outline{background:transparent;color:var(--blue);border:0.5px solid var(--blue);border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.table-wrap{background:var(--white);border:0.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden;margin-bottom:18px;}
+.t-head{display:grid;padding:8px 15px;background:var(--warmer);border-bottom:0.5px solid var(--border);}
+.t-row{display:grid;padding:11px 15px;border-bottom:0.5px solid var(--border);align-items:center;cursor:pointer;transition:background 0.15s;}
+.t-row:last-child{border-bottom:none;}
+.t-row:hover{background:var(--warmer);}
+.th{font-size:10px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:var(--muted);}
+.td{font-size:13px;}
+.guest-name{font-weight:500;}
+.guest-sub{font-size:11px;color:var(--muted);margin-top:1px;}
+.pill{display:inline-block;border-radius:20px;padding:2px 8px;font-size:11px;font-weight:500;}
+.pill-confirmed{background:var(--green-l);color:var(--green);}
+.pill-pending{background:var(--gold-l);color:var(--gold);}
+.pill-checkedin{background:var(--blue-l);color:var(--blue-d);}
+.pill-completed{background:var(--warm);color:var(--muted);}
+
+/* USERS */
+.user-card-wrap{background:var(--white);border:0.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden;margin-bottom:14px;}
+.user-row{display:flex;align-items:center;gap:13px;padding:14px 18px;border-bottom:0.5px solid var(--border);}
+.user-row:last-child{border-bottom:none;}
+.u-av{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;flex-shrink:0;}
+.av1{background:var(--blue-l);color:var(--blue);}
+.av2{background:var(--gold-l);color:var(--gold);}
+.av3{background:var(--green-l);color:var(--green);}
+.u-name{font-size:13px;font-weight:500;}
+.u-role{font-size:11px;color:var(--muted);margin-top:1px;}
+.u-tag{font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;}
+.perm-row{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:5px;}
+.perm{font-size:10px;padding:2px 5px;border-radius:4px;text-align:center;}
+.perm-y{background:var(--blue-l);color:var(--blue-d);}
+.perm-n{background:var(--warm);color:var(--muted);}
+
+/* HK */
+.hk-card{background:var(--white);border:0.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden;margin-bottom:10px;}
+.hk-header{padding:10px 15px;background:var(--warmer);border-bottom:0.5px solid var(--border);font-size:11px;font-weight:500;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;}
+.hk-row{display:flex;align-items:center;gap:11px;padding:13px 15px;border-bottom:0.5px solid var(--border);}
+.hk-row:last-child{border-bottom:none;}
+.hk-icon{font-size:18px;width:30px;text-align:center;flex-shrink:0;}
+.hk-info{flex:1;}
+.hk-name{font-size:13px;font-weight:500;}
+.hk-detail{font-size:11px;color:var(--muted);margin-top:1px;}
+.hk-cost{font-size:12px;font-weight:500;color:var(--green);}
+.hk-btn{background:var(--blue);color:white;border:none;border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.hk-done{background:var(--green);color:white;border:none;border-radius:8px;padding:6px 12px;font-size:12px;font-family:'DM Sans',sans-serif;}
+
+/* ANALYTICS */
+.occ-card{background:var(--white);border:0.5px solid var(--border);border-radius:var(--r-lg);padding:18px;margin-bottom:14px;}
+.occ-bar-row{margin-bottom:10px;}
+.occ-bar-meta{display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px;}
+.occ-bar-pct{font-weight:500;color:var(--blue);}
+.occ-track{height:9px;background:var(--warm);border-radius:5px;overflow:hidden;display:flex;border:0.5px solid var(--border);}
+.occ-res{background:#B4B2A9;}
+.occ-sb{background:var(--blue);}
+.delta-badge{display:inline-flex;align-items:center;gap:5px;background:var(--blue-l);border-radius:20px;padding:4px 12px;font-size:12px;color:var(--blue-d);font-weight:500;margin-top:3px;}
+
+/* EXPENSES */
+.exp-row{display:flex;align-items:center;gap:9px;padding:11px 15px;border-bottom:0.5px solid var(--border);}
+.exp-row:last-child{border-bottom:none;}
+.exp-info{flex:1;}
+.exp-name{font-size:13px;font-weight:500;}
+.exp-meta{font-size:11px;color:var(--muted);margin-top:1px;}
+.exp-chips{display:flex;gap:6px;}
+.chip{padding:4px 9px;border-radius:7px;font-size:12px;font-weight:500;}
+.chip-rev{background:var(--green-l);color:var(--green);}
+.chip-cost{background:#FDECEA;color:#C0392B;}
+.chip-net{background:var(--ink);color:white;}
+.exp-sum{background:var(--ink);color:white;border-radius:var(--r);padding:13px 16px;margin-top:6px;}
+.exp-sum-row{display:flex;justify-content:space-between;font-size:13px;padding:4px 0;border-bottom:0.5px solid rgba(255,255,255,0.1);}
+.exp-sum-row:last-child{border-bottom:none;font-weight:500;padding-top:9px;}
+.exp-green{color:#9FE1CB;}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px;}
+.modal-overlay.hidden{display:none;}
+.modal{background:var(--white);border-radius:var(--r-lg);padding:26px;width:100%;max-width:440px;max-height:92vh;overflow-y:auto;position:relative;}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:19px;margin-bottom:2px;}
+.modal-sub{font-size:13px;color:var(--muted);margin-bottom:18px;}
+.modal-close{position:absolute;top:12px;right:14px;background:none;border:none;font-size:19px;cursor:pointer;color:var(--muted);}
+.type-tabs{display:flex;gap:5px;margin-bottom:16px;flex-wrap:wrap;}
+.type-tab{padding:6px 12px;border-radius:8px;border:0.5px solid var(--border-med);font-size:12px;font-weight:500;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;background:var(--warm);}
+.type-tab.active{background:var(--blue);color:white;border-color:var(--blue);}
+.link-box{background:var(--warm);border:0.5px solid var(--border-med);border-radius:var(--r);padding:11px 13px;display:flex;align-items:center;gap:7px;margin-top:12px;}
+.link-url{font-size:11px;color:var(--muted);flex:1;font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.copy-btn{background:var(--blue);color:white;border:none;border-radius:7px;padding:5px 11px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;flex-shrink:0;}
+
+/* LISTING PAGE */
+.listing-wrap{flex:1;overflow-y:auto;}
+.lp-hero{position:relative;height:52vh;min-height:360px;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;}
+.lp-bg{position:absolute;inset:0;background:linear-gradient(160deg,#0e2a5c 0%,#1a4a9e 50%,var(--blue) 100%);transition:background 0.5s;}
+.lp-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,20,40,0.1) 0%,rgba(10,20,40,0) 35%,rgba(10,20,40,0.65) 100%);}
+.lp-nav{position:absolute;top:0;left:0;right:0;padding:14px 22px;display:flex;align-items:center;justify-content:space-between;z-index:10;}
+.lp-com-logo{display:flex;align-items:center;gap:8px;}
+.lp-logo-circle{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:white;overflow:hidden;}
+.lp-com-name{font-size:13px;font-weight:500;color:white;opacity:0.9;}
+.lp-sb-badge{background:rgba(255,255,255,0.1);border:0.5px solid rgba(255,255,255,0.2);border-radius:20px;padding:4px 10px;font-size:10px;color:rgba(255,255,255,0.8);letter-spacing:0.06em;text-transform:uppercase;}
+.lp-content{position:relative;z-index:10;padding:0 22px 28px;}
+.lp-eyebrow{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:6px;}
+.lp-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4.5vw,54px);font-weight:300;color:white;line-height:1.06;margin-bottom:8px;}
+.lp-title em{font-style:italic;}
+.lp-meta{display:flex;align-items:center;gap:12px;font-size:12px;color:rgba(255,255,255,0.6);}
+.lp-stars{color:#FAC75A;letter-spacing:1px;font-size:11px;}
+.lp-div{width:1px;height:11px;background:rgba(255,255,255,0.25);}
+.photo-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:3px;height:180px;}
+.ph{overflow:hidden;cursor:pointer;transition:filter 0.2s;}
+.ph:hover{filter:brightness(0.85);}
+.ph-a{background:linear-gradient(145deg,#8fa8d8,#5878b8);}
+.ph-b{background:linear-gradient(145deg,#a0b0d0,#7090c0);}
+.ph-c{background:linear-gradient(145deg,#90a8c8,#6888b0);}
+.ph-d{background:linear-gradient(145deg,#b8c8e0,#8098c0);}
+.ph-e{background:linear-gradient(145deg,#88a8d0,#6080b8);}
+.ph-sub{display:grid;grid-template-rows:1fr 1fr;gap:3px;}
+.lp-body{display:grid;grid-template-columns:1fr 320px;gap:32px;padding:28px 22px;max-width:1060px;margin:0 auto;}
+.lp-eyebrow2{font-size:10px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--com);margin-bottom:5px;}
+.lp-suite-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;line-height:1.15;margin-bottom:4px;}
+.lp-suite-sub{font-size:13px;color:var(--muted);margin-bottom:16px;}
+.lp-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:18px;}
+.lp-tag{background:var(--warmer);border:0.5px solid var(--border);border-radius:20px;padding:3px 10px;font-size:11px;color:var(--ink2);}
+.lp-divider{height:0.5px;background:var(--border);margin:18px 0;}
+.lp-sec-title{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400;margin-bottom:9px;}
+.lp-body-text{font-size:13px;color:var(--ink2);line-height:1.8;}
+.lp-am-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.lp-am{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink2);}
+.lp-am-icon{width:30px;height:30px;background:var(--warmer);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+.lp-stay-card{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;background:var(--white);border:0.5px solid var(--border);border-radius:var(--r);margin-bottom:8px;}
+.lp-sc-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;background:var(--com-l);}
+.lp-sc-name{font-size:13px;font-weight:500;margin-bottom:1px;}
+.lp-sc-desc{font-size:11px;color:var(--muted);line-height:1.5;}
+.lp-sc-price{font-size:12px;font-weight:500;color:var(--com);white-space:nowrap;margin-left:auto;}
+
+/* BOOKING PANEL */
+.bp{background:var(--white);border:0.5px solid var(--border);border-radius:var(--r-xl);overflow:hidden;box-shadow:0 6px 28px rgba(58,127,213,0.1);position:sticky;top:16px;}
+.bp-head{padding:18px 18px 14px;background:linear-gradient(135deg,var(--com-d),var(--com));transition:background 0.4s;}
+.bp-ct{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;opacity:0.6;margin-bottom:3px;color:white;}
+.bp-sn{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:300;line-height:1.2;margin-bottom:2px;color:white;}
+.bp-meta{font-size:11px;opacity:0.65;display:flex;align-items:center;gap:6px;color:white;}
+.bp-stars{color:#FAC75A;font-size:10px;}
+.bp-body{padding:14px 18px;}
+.bp-label{font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;display:block;}
+.bp-types{display:flex;flex-direction:column;gap:6px;margin-bottom:12px;}
+.bp-type{display:flex;align-items:center;gap:7px;padding:9px 11px;background:var(--warm);border:0.5px solid var(--border);border-radius:9px;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;text-align:left;width:100%;}
+.bp-type:hover,.bp-type.active{background:var(--com-l);border-color:var(--com);border-width:1.5px;}
+.bp-type-name{font-size:12px;font-weight:500;flex:1;color:var(--ink);}
+.bp-type-price{font-size:11px;font-weight:500;color:var(--com);}
+.bp-input{background:var(--warm);border:0.5px solid var(--border-med);border-radius:8px;padding:9px 11px;font-size:12px;font-family:'DM Sans',sans-serif;color:var(--ink);width:100%;margin-bottom:10px;transition:border-color 0.2s;}
+.bp-input:focus{outline:none;border-color:var(--com);}
+.date-row{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px;}
+.cost-box{background:var(--warmer);border-radius:9px;padding:11px 13px;margin-bottom:11px;}
+.cost-row{display:flex;justify-content:space-between;font-size:12px;color:var(--ink2);padding:2px 0;}
+.cost-row.total{font-weight:500;border-top:0.5px solid var(--border);margin-top:7px;padding-top:7px;color:var(--com);}
+.cost-row .lbl{color:var(--muted);}
+.bp-cta{background:var(--com);color:white;border:none;border-radius:10px;padding:12px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;width:100%;transition:all 0.2s;}
+.bp-cta:hover{opacity:0.9;}
+.bp-note{font-size:10px;color:var(--muted);text-align:center;margin-top:7px;line-height:1.6;}
+.direct-lock{background:var(--blue-l);border:0.5px dashed var(--border-med);border-radius:8px;padding:9px 11px;font-size:11px;color:var(--blue);text-align:center;margin-top:8px;line-height:1.6;}
+.bp-watermark{text-align:center;padding:9px;border-top:0.5px solid var(--border);font-size:10px;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;}
+.bp-confirm{display:none;flex-direction:column;align-items:center;padding:20px;gap:9px;text-align:center;}
+.conf-circle{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--com-d),var(--com));display:flex;align-items:center;justify-content:center;margin:0 auto;}
+.conf-title{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:400;}
+.conf-sub{font-size:12px;color:var(--muted);line-height:1.6;}
+.conf-code{background:var(--ink);color:white;border-radius:10px;padding:13px 18px;width:100%;}
+.conf-code-label{font-size:9px;letter-spacing:0.14em;text-transform:uppercase;opacity:0.5;margin-bottom:4px;}
+.conf-code-val{font-family:'Cormorant Garamond',serif;font-size:26px;letter-spacing:0.1em;}
+.conf-pills{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;}
+.conf-pill{background:var(--com-l);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:500;color:var(--com);}
+
+/* GUEST APP */
+.guest-shell{max-width:390px;margin:0 auto;background:var(--warm);min-height:100vh;border:0.5px solid var(--border);}
+.g-header{padding:16px 18px 12px;transition:background 0.4s;}
+.g-badge{font-size:9px;opacity:0.65;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:2px;color:white;}
+.g-name{font-family:'Cormorant Garamond',serif;font-size:18px;color:white;}
+.g-watermark{font-size:8px;opacity:0.4;margin-top:1px;letter-spacing:0.06em;text-transform:uppercase;color:white;}
+.g-content{padding:16px;display:flex;flex-direction:column;gap:13px;}
+.g-card{background:var(--white);border:0.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden;}
+.g-card-img{height:120px;display:flex;align-items:flex-end;justify-content:space-between;padding:9px;background:linear-gradient(135deg,#8fa8d8,#5878b8);}
+.g-unit-label{background:rgba(255,255,255,0.9);border-radius:5px;padding:2px 9px;font-size:10px;font-weight:500;}
+.g-stay-badge{border-radius:20px;padding:2px 9px;font-size:10px;font-weight:500;color:white;}
+.g-card-body{padding:14px;}
+.g-card-title{font-family:'Cormorant Garamond',serif;font-size:17px;margin-bottom:4px;}
+.g-card-sub{font-size:12px;color:var(--muted);line-height:1.6;}
+.g-form-label{font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;display:block;}
+.g-input{background:var(--warm);border:0.5px solid var(--border-med);border-radius:8px;padding:9px 11px;font-size:12px;font-family:'DM Sans',sans-serif;color:var(--ink);width:100%;margin-bottom:9px;}
+.g-btn{color:white;border:none;border-radius:9px;padding:11px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;width:100%;transition:all 0.2s;}
+.g-confirm{color:white;border-radius:var(--r-lg);padding:16px 18px;text-align:center;}
+.g-code-label{font-size:9px;letter-spacing:0.12em;text-transform:uppercase;opacity:0.5;margin-bottom:5px;}
+.g-code-val{font-family:'Cormorant Garamond',serif;font-size:26px;letter-spacing:0.1em;}
+.g-pills{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;margin-top:7px;}
+.g-pill{border-radius:20px;padding:3px 10px;font-size:10px;font-weight:500;}
+.g-nav-tabs{display:flex;border-bottom:0.5px solid var(--border);background:var(--white);}
+.g-nav-tab{flex:1;padding:10px 6px;text-align:center;font-size:11px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;font-weight:500;}
+.g-nav-tab.active{color:var(--com);border-bottom-color:var(--com);}
+.g-section{padding:14px 16px;}
+.g-action{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--warm);border-radius:9px;margin-bottom:7px;cursor:pointer;border:0.5px solid transparent;}
+.g-action:hover{border-color:var(--com);background:var(--com-l);}
+.g-action-icon{font-size:18px;width:28px;text-align:center;}
+.g-action-name{font-size:13px;font-weight:500;flex:1;}
+.g-action-arr{color:var(--muted);font-size:13px;}
+.g-event{display:flex;gap:11px;align-items:flex-start;padding:11px 14px;background:var(--white);border:0.5px solid var(--border);border-radius:9px;margin-bottom:7px;}
+.g-event-date{border-radius:7px;width:40px;text-align:center;padding:5px 3px;flex-shrink:0;}
+.g-event-month{font-size:8px;text-transform:uppercase;letter-spacing:0.06em;opacity:0.75;color:white;}
+.g-event-day{font-size:18px;font-family:'Cormorant Garamond',serif;color:white;line-height:1;}
+.g-event-name{font-size:12px;font-weight:500;margin-bottom:1px;}
+.g-event-detail{font-size:11px;color:var(--muted);}
+.g-issue-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:11px;}
+.g-issue-btn{background:var(--white);border:0.5px solid var(--border);border-radius:9px;padding:12px 10px;cursor:pointer;text-align:center;transition:all 0.2s;font-family:'DM Sans',sans-serif;}
+.g-issue-btn:hover,.g-issue-btn.selected{background:var(--gold-l);border-color:var(--gold);}
+.g-issue-icon{font-size:20px;margin-bottom:4px;}
+.g-issue-label{font-size:11px;font-weight:500;}
+.back-btn{display:flex;align-items:center;gap:5px;background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer;padding:10px 18px 0;font-family:'DM Sans',sans-serif;}
+
+@media(max-width:768px){
+  .lp-body{grid-template-columns:1fr;gap:20px;}
+  .bp{position:relative;top:0;}
+  .metrics-grid{grid-template-columns:1fr 1fr;}
+  .lp-am-grid{grid-template-columns:1fr;}
+  .dash-body{flex-direction:column;}
+  .sidebar{width:100%;border-right:none;border-bottom:0.5px solid var(--border);}
+}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+<!-- BETA NAV -->
+<div class="beta-nav">
+  <div class="beta-logo"><span style="font-size:18px;">🐦</span><div class="beta-logo-text">Suite Bird</div><span class="beta-badge">Beta</span></div>
+  <div class="beta-flows">
+    <button class="beta-flow-btn active" id="flow-auth" onclick="jumpTo('s-login','flow-auth')">Operator login</button>
+    <button class="beta-flow-btn" id="flow-signup" onclick="jumpTo('s-signup','flow-signup')">New signup</button>
+    <button class="beta-flow-btn" id="flow-dash" onclick="jumpTo('s-dashboard','flow-dash');setRole('admin1')">Dashboard</button>
+    <button class="beta-flow-btn" id="flow-listing" onclick="jumpTo('s-listing','flow-listing')">Guest listing</button>
+    <button class="beta-flow-btn" id="flow-guest" onclick="jumpTo('s-guest','flow-guest')">Guest app</button>
+  </div>
+</div>
+
+<!-- LOGIN -->
+<div class="screen active" id="s-login">
+<div class="auth-wrap"><div class="auth-card">
+  <div class="auth-logo">Suite Bird</div>
+  <div class="auth-sub">Operator platform · Meadowbrook Senior Living</div>
+  <div class="form-group"><label class="form-label">Email</label><input class="form-input" value="sarah@meadowbrook.com"/></div>
+  <div class="form-group"><label class="form-label">Password</label><input class="form-input" type="password" value="••••••••"/></div>
+  <button class="btn-primary" onclick="setRole('admin1');goTo('s-dashboard')">Sign in</button>
+  <div style="margin:14px 0 10px;font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);">Or sign in as</div>
+  <div class="role-grid">
+    <button class="role-btn" onclick="setRole('admin1');goTo('s-dashboard')"><div class="role-icon">👤</div><div><div class="role-name">Sarah Mitchell — Admin 1</div><div class="role-desc">Executive Director · Full access</div></div><span class="role-tag tag-full">Full</span></button>
+    <button class="role-btn" onclick="setRole('admin2');goTo('s-dashboard')"><div class="role-icon">👤</div><div><div class="role-name">James Park — Admin 2</div><div class="role-desc">Sales Coordinator · No billing</div></div><span class="role-tag tag-mgmt">Mgmt</span></button>
+    <button class="role-btn" onclick="setRole('hk');goTo('s-dashboard')"><div class="role-icon">🧹</div><div><div class="role-name">Maria Santos — Housekeeping</div><div class="role-desc">Operations · Tasks only</div></div><span class="role-tag tag-ops">Ops</span></button>
+  </div>
+  <div class="auth-footer">New to SuiteBird? <a onclick="goTo('s-signup')">Start free trial</a></div>
+</div></div>
+</div>
+
+<!-- SIGNUP -->
+<div class="screen" id="s-signup">
+<div class="auth-wrap"><div class="auth-card">
+  <div class="auth-logo">Suite Bird</div>
+  <div class="auth-sub">Operator platform</div>
+  <div class="trial-badge">14-day free trial · no credit card required</div>
+  <div class="form-group"><label class="form-label">Your name</label><input class="form-input" value="Sarah Mitchell"/></div>
+  <div class="form-group"><label class="form-label">Work email</label><input class="form-input" value="sarah@meadowbrook.com"/></div>
+  <div class="form-group"><label class="form-label">Password</label><input class="form-input" type="password" value="••••••••"/></div>
+  <div class="form-group"><label class="form-label">Your role</label><select class="form-input"><option>Executive Director</option><option>Marketing Director</option><option>Community Manager</option></select></div>
+  <button class="btn-primary" onclick="goTo('s-onboard')">Start free trial</button>
+  <div class="auth-footer">Already have an account? <a onclick="goTo('s-login')">Sign in</a></div>
+</div></div>
+</div>
+
+<!-- ONBOARDING -->
+<div class="screen" id="s-onboard">
+<div class="ob-wrap"><div class="ob-card">
+  <div id="ob1">
+    <div class="progress-bar"><div class="progress-fill" style="width:20%"></div></div>
+    <div class="step-label">Step 1 of 5</div><div class="step-title">Your community</div><div class="step-desc">Set up your community profile.</div>
+    <div class="form-group"><label class="form-label">Community name</label><input class="form-input" value="Meadowbrook Senior Living"/></div>
+    <div class="form-row"><div class="form-group"><label class="form-label">City</label><input class="form-input" value="Portland"/></div><div class="form-group"><label class="form-label">State</label><input class="form-input" value="OR"/></div></div>
+    <div class="form-group"><label class="form-label">Community type</label><select class="form-input"><option>Independent Living</option><option>55+ Community</option></select></div>
+    <button class="btn-primary" onclick="obStep(2)">Continue</button>
+  </div>
+  <div id="ob2" style="display:none;">
+    <div class="progress-bar"><div class="progress-fill" style="width:40%"></div></div>
+    <div class="step-label">Step 2 of 5</div><div class="step-title">Community size</div><div class="step-desc">Unlocks your micro-occupancy score.</div>
+    <div class="form-row"><div class="form-group"><label class="form-label">Total units</label><input class="form-input" type="number" value="166"/></div><div class="form-group"><label class="form-label">Current occupancy %</label><input class="form-input" type="number" value="83"/></div></div>
+    <div class="hint-box">SuiteBird adds every guest stay night to your occupancy count — giving you a blended micro-occupancy rate your current software doesn't show.</div>
+    <button class="btn-primary" onclick="obStep(3)">Continue</button><button class="btn-secondary" onclick="obStep(1)">Back</button>
+  </div>
+  <div id="ob3" style="display:none;">
+    <div class="progress-bar"><div class="progress-fill" style="width:60%"></div></div>
+    <div class="step-label">Step 3 of 5</div><div class="step-title">Furnished units</div><div class="step-desc">How many units will you activate?</div>
+    <div class="counter-wrap"><div class="counter-card"><div class="counter-label-top">SuiteBird units</div><div class="counter-controls"><button class="counter-btn" onclick="adj('obu',-1)">−</button><div class="counter-val" id="obu">3</div><button class="counter-btn" onclick="adj('obu',1)">+</button></div><div class="counter-sub">max 3 on starter plan</div></div></div>
+    <button class="btn-primary" onclick="obStep(4)">Continue</button><button class="btn-secondary" onclick="obStep(2)">Back</button>
+  </div>
+  <div id="ob4" style="display:none;">
+    <div class="progress-bar"><div class="progress-fill" style="width:80%"></div></div>
+    <div class="step-label">Step 4 of 5</div><div class="step-title">Stay types</div><div class="step-desc">Choose what you'll offer guests.</div>
+    <button class="option-btn selected" onclick="this.classList.toggle('selected')"><span style="font-size:17px;">🏡</span><div><div style="font-size:13px;font-weight:500;">Trial stays</div><div style="font-size:11px;color:var(--muted);">Complimentary for prospective residents</div></div></button>
+    <button class="option-btn selected" onclick="this.classList.toggle('selected')"><span style="font-size:17px;">👨‍👩‍👧</span><div><div style="font-size:13px;font-weight:500;">Friend &amp; family stays</div><div style="font-size:11px;color:var(--muted);">Paid overnight visits</div></div></button>
+    <button class="option-btn" onclick="this.classList.toggle('selected')"><span style="font-size:17px;">🌐</span><div><div style="font-size:13px;font-weight:500;">Inter-community travel</div><div style="font-size:11px;color:var(--muted);">Enterprise networks only</div></div></button>
+    <button class="btn-primary" onclick="obStep(5)" style="margin-top:8px;">Continue</button><button class="btn-secondary" onclick="obStep(3)">Back</button>
+  </div>
+  <div id="ob5" style="display:none;">
+    <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+    <div class="step-label">Step 5 of 5</div><div class="step-title">You're all set!</div><div class="step-desc">Your 14-day free trial starts now.</div>
+    <div class="ob-success">✓ 3 furnished units configured</div>
+    <div class="ob-success">✓ Trial stays + F&amp;F enabled</div>
+    <div class="ob-success">✓ Micro-occupancy tracking on</div>
+    <div class="ob-success">✓ AI guest messaging ready</div>
+    <div class="ob-success">✓ 3 user seats available</div>
+    <button class="btn-primary" style="margin-top:10px;" onclick="setRole('admin1');goTo('s-dashboard')">Go to my dashboard</button>
+  </div>
+</div></div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="screen" id="s-dashboard">
+<div class="dash-shell">
+  <div class="topbar">
+    <div class="topbar-left"><div class="topbar-logo">Suite Bird</div><div class="topbar-community">· Meadowbrook Senior Living</div></div>
+    <div class="topbar-right">
+      <div class="trial-pill" id="tb-trial">Trial · 14 days left</div>
+      <div class="user-pill" onclick="goTo('s-login')"><div class="user-av" id="tb-av">SM</div><div class="user-nm" id="tb-nm">Sarah Mitchell</div></div>
+    </div>
+  </div>
+  <div class="dash-body">
+    <div class="sidebar" id="sidebar">
+      <div class="nav-section">Main</div>
+      <div class="nav-item active" id="ni-overview" onclick="sv(this,'v-overview')"><span class="nav-icon">◻</span>Overview</div>
+      <div class="nav-item" id="ni-bookings" onclick="sv(this,'v-bookings')"><span class="nav-icon">📋</span>Bookings<span class="nav-badge">4</span></div>
+      <div class="nav-item" id="ni-units" onclick="sv(this,'v-units')"><span class="nav-icon">🏠</span>Units</div>
+      <div class="nav-item" id="ni-guests" onclick="sv(this,'v-guests')"><span class="nav-icon">👥</span>Guests</div>
+      <div class="nav-section">Insights</div>
+      <div class="nav-item" id="ni-analytics" onclick="sv(this,'v-analytics')"><span class="nav-icon">📊</span>Analytics</div>
+      <div class="nav-item" id="ni-expenses" onclick="sv(this,'v-expenses')"><span class="nav-icon">💰</span>Expenses</div>
+      <div class="nav-section">Network</div>
+      <div class="nav-item" id="ni-network" onclick="sv(this,'v-network')"><span class="nav-icon">🌐</span>Inter-community</div>
+      <div class="nav-section" id="ns-team">Team</div>
+      <div class="nav-item" id="ni-users" onclick="sv(this,'v-users')"><span class="nav-icon">👤</span>Users &amp; roles</div>
+      <div class="nav-section" id="ns-acct">Account</div>
+      <div class="nav-item" id="ni-billing" onclick="sv(this,'v-billing')"><span class="nav-icon">⚙</span>Billing</div>
+      <div class="nav-item" onclick="goTo('s-login')"><span class="nav-icon">↩</span>Switch user</div>
+    </div>
+    <div class="dash-main">
+
+      <!-- OVERVIEW -->
+      <div class="dash-view active" id="v-overview">
+        <div class="page-title" id="ov-greet">Good morning, Sarah</div>
+        <div class="page-sub">Meadowbrook Senior Living · Portland, OR</div>
+        <div class="metrics-grid">
+          <div class="m-card hl"><div class="m-label">Blended occupancy</div><div class="m-val">84.3%</div><div class="m-sub m-up">↑ +1.3pts with SuiteBird</div></div>
+          <div class="m-card"><div class="m-label">Active bookings</div><div class="m-val">4</div><div class="m-sub">2 arriving this week</div></div>
+          <div class="m-card"><div class="m-label">Trial stays MTD</div><div class="m-val">7</div><div class="m-sub">3 converted to residents</div></div>
+          <div class="m-card"><div class="m-label">Net revenue MTD</div><div class="m-val">$1,640</div><div class="m-sub">After HK expenses</div></div>
+        </div>
+        <div class="section-header"><div class="section-title">Upcoming stays</div><button class="btn-sm" id="btn-new" onclick="openModal()">+ New booking</button></div>
+        <div class="table-wrap">
+          <div class="t-head" style="grid-template-columns:2fr 1.1fr 0.9fr 1fr 1fr 72px;"><div class="th">Guest</div><div class="th">Type</div><div class="th">Unit</div><div class="th">Dates</div><div class="th">Status</div><div class="th"></div></div>
+          <div class="t-row" style="grid-template-columns:2fr 1.1fr 0.9fr 1fr 1fr 72px;" onclick="goTo('s-listing')"><div class="td"><div class="guest-name">Margaret Thompson</div><div class="guest-sub">Prospective resident</div></div><div class="td">Trial stay</div><div class="td">Suite 204</div><div class="td">Apr 14–17</div><div class="td"><span class="pill pill-confirmed">Confirmed</span></div><div class="td"><button class="btn-sm-outline" onclick="event.stopPropagation();goTo('s-listing')">View</button></div></div>
+          <div class="t-row" style="grid-template-columns:2fr 1.1fr 0.9fr 1fr 1fr 72px;"><div class="td"><div class="guest-name">Robert &amp; Jean Kim</div><div class="guest-sub">Family of Alice Kim</div></div><div class="td">F&amp;F stay</div><div class="td">Suite 312</div><div class="td">Apr 15–16</div><div class="td"><span class="pill pill-checkedin">Checked in</span></div><div class="td"><button class="btn-sm-outline">View</button></div></div>
+          <div class="t-row" style="grid-template-columns:2fr 1.1fr 0.9fr 1fr 1fr 72px;" onclick="openModal()"><div class="td"><div class="guest-name">Patricia Nguyen</div><div class="guest-sub">Prospective resident</div></div><div class="td">Trial stay</div><div class="td">Suite 204</div><div class="td">Apr 19–21</div><div class="td"><span class="pill pill-pending">Link sent</span></div><div class="td"><button class="btn-sm-outline" onclick="event.stopPropagation();openModal()">Resend</button></div></div>
+          <div class="t-row" style="grid-template-columns:2fr 1.1fr 0.9fr 1fr 1fr 72px;"><div class="td"><div class="guest-name">James Wilson</div><div class="guest-sub">Son of Dorothy Wilson</div></div><div class="td">F&amp;F stay</div><div class="td">Suite 108</div><div class="td">Apr 22–24</div><div class="td"><span class="pill pill-pending">Pending</span></div><div class="td"><button class="btn-sm-outline">View</button></div></div>
+        </div>
+      </div>
+
+      <!-- BOOKINGS -->
+      <div class="dash-view" id="v-bookings">
+        <div class="page-title">Bookings</div><div class="page-sub">All stays — created and managed by your team</div>
+        <div class="section-header"><button class="btn-sm" onclick="openModal()">+ New booking</button></div>
+        <div class="table-wrap">
+          <div class="t-head" style="grid-template-columns:2fr 1.1fr 0.9fr 1fr 1fr 72px;"><div class="th">Guest</div><div class="th">Type</div><div class="th">Unit</div><div class="th">Dates</div><div class="th">Status</div><div class="th"></div></div>
+          <div class="t-row" style="grid-template-columns:2fr 1.1fr 0.9fr 1fr 1fr 72px;" onclick="goTo('s-listing')"><div class="td"><div class="guest-name">Margaret Thompson</div><div class="guest-sub">Portland OR · Age 68</div></div><div class="td">Trial stay</div><div class="td">Suite 204</div><div class="td">Apr 14–17</div><div class="td"><span class="pill pill-confirmed">Confirmed</span></div><div class="td"><button class="btn-sm-outline">Preview</button></div></div>
+          <div class="t-row" style="grid-template-columns:2fr 1.1fr 0.9fr 1fr 1fr 72px;"><div class="td"><div class="guest-name">Robert &amp; Jean Kim</div><div class="guest-sub">Family of Alice Kim</div></div><div class="td">F&amp;F stay</div><div class="td">Suite 312</div><div class="td">Apr 15–16</div><div class="td"><span class="pill pill-checkedin">Checked in</span></div><div class="td"><button class="btn-sm-outline">View</button></div></div>
+          <div class="t-row" style="grid-template-columns:2fr 1.1fr 0.9fr 1fr 1fr 72px;"><div class="td"><div class="guest-name">Patricia Nguyen</div><div class="guest-sub">Seattle WA · Age 71</div></div><div class="td">Trial stay</div><div class="td">Suite 204</div><div class="td">Apr 19–21</div><div class="td"><span class="pill pill-pending">Link sent</span></div><div class="td"><button class="btn-sm-outline" onclick="openModal()">Resend</button></div></div>
+          <div class="t-row" style="grid-template-columns:2fr 1.1fr 0.9fr 1fr 1fr 72px;"><div class="td"><div class="guest-name">James Wilson</div><div class="guest-sub">Son of Dorothy Wilson</div></div><div class="td">F&amp;F stay</div><div class="td">Suite 108</div><div class="td">Apr 22–24</div><div class="td"><span class="pill pill-pending">Pending</span></div><div class="td"><button class="btn-sm-outline">View</button></div></div>
+          <div class="t-row" style="grid-template-columns:2fr 1.1fr 0.9fr 1fr 1fr 72px;"><div class="td"><div class="guest-name">Carol Jensen</div><div class="guest-sub">Eugene OR · Age 66</div></div><div class="td">Trial stay</div><div class="td">Suite 108</div><div class="td">Mar 8–10</div><div class="td"><span class="pill pill-completed">Converted</span></div><div class="td"><button class="btn-sm-outline">View</button></div></div>
+        </div>
+      </div>
+
+      <!-- UNITS -->
+      <div class="dash-view" id="v-units">
+        <div class="page-title">Furnished units</div><div class="page-sub">Your 3 activated SuiteBird suites</div>
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;">
+          <div style="background:var(--white);border:0.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden;"><div style="height:90px;background:#d4e4d0;display:flex;align-items:flex-end;justify-content:flex-end;padding:8px;"><span style="background:var(--green);color:white;border-radius:20px;padding:2px 9px;font-size:10px;font-weight:500;">Available</span></div><div style="padding:13px;"><div style="font-weight:500;font-size:13px;margin-bottom:2px;">Suite 204</div><div style="font-size:11px;color:var(--muted);margin-bottom:6px;">1 bed · 1 bath · 693 sq ft</div><div style="font-size:11px;color:var(--muted);">Utilization: <span style="font-weight:500;color:var(--ink);">62%</span></div></div></div>
+          <div style="background:var(--white);border:0.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden;"><div style="height:90px;background:#d4dce8;display:flex;align-items:flex-end;justify-content:flex-end;padding:8px;"><span style="background:var(--gold);color:white;border-radius:20px;padding:2px 9px;font-size:10px;font-weight:500;">Occupied</span></div><div style="padding:13px;"><div style="font-weight:500;font-size:13px;margin-bottom:2px;">Suite 108</div><div style="font-size:11px;color:var(--muted);margin-bottom:6px;">Studio · 398 sq ft</div><div style="font-size:11px;color:var(--muted);">Utilization: <span style="font-weight:500;color:var(--ink);">44%</span></div></div></div>
+          <div style="background:var(--white);border:0.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden;"><div style="height:90px;background:#e8ddd4;display:flex;align-items:flex-end;justify-content:flex-end;padding:8px;"><span style="background:var(--green);color:white;border-radius:20px;padding:2px 9px;font-size:10px;font-weight:500;">Available</span></div><div style="padding:13px;"><div style="font-weight:500;font-size:13px;margin-bottom:2px;">Suite 312</div><div style="font-size:11px;color:var(--muted);margin-bottom:6px;">2 bed · 2 bath · 1,100 sq ft</div><div style="font-size:11px;color:var(--muted);">Utilization: <span style="font-weight:500;color:var(--ink);">78%</span></div></div></div>
+        </div>
+      </div>
+
+      <!-- GUESTS -->
+      <div class="dash-view" id="v-guests">
+        <div class="page-title">Guest CRM</div><div class="page-sub">Every stay builds your prospect pipeline</div>
+        <div class="table-wrap">
+          <div class="t-head" style="grid-template-columns:2fr 1fr 0.8fr 1fr 1fr 70px;"><div class="th">Guest</div><div class="th">Type</div><div class="th">Stays</div><div class="th">Last stay</div><div class="th">Status</div><div class="th"></div></div>
+          <div class="t-row" style="grid-template-columns:2fr 1fr 0.8fr 1fr 1fr 70px;"><div class="td"><div class="guest-name">Margaret Thompson</div><div class="guest-sub">Portland OR · 68</div></div><div class="td">Prospective</div><div class="td">1</div><div class="td">Apr 14</div><div class="td"><span class="pill pill-confirmed">Active</span></div><div class="td"><button class="btn-sm-outline">View</button></div></div>
+          <div class="t-row" style="grid-template-columns:2fr 1fr 0.8fr 1fr 1fr 70px;"><div class="td"><div class="guest-name">David Park</div><div class="guest-sub">San Francisco CA</div></div><div class="td">Family</div><div class="td">3</div><div class="td">May 2</div><div class="td"><span class="pill pill-checkedin">Repeat</span></div><div class="td"><button class="btn-sm-outline">View</button></div></div>
+          <div class="t-row" style="grid-template-columns:2fr 1fr 0.8fr 1fr 1fr 70px;"><div class="td"><div class="guest-name">Carol Jensen</div><div class="guest-sub">Eugene OR · 66</div></div><div class="td">Prospective</div><div class="td">1</div><div class="td">Mar 8</div><div class="td"><span class="pill pill-completed">Converted</span></div><div class="td"><button class="btn-sm-outline">View</button></div></div>
+        </div>
+      </div>
+
+      <!-- ANALYTICS -->
+      <div class="dash-view" id="v-analytics">
+        <div class="page-title">Micro-occupancy analytics</div><div class="page-sub">Every stay night counted toward your reported rate</div>
+        <div class="metrics-grid">
+          <div class="m-card"><div class="m-label">Total units</div><div class="m-val">166</div></div>
+          <div class="m-card"><div class="m-label">Resident occupancy</div><div class="m-val">83.0%</div><div class="m-sub">138 of 166 units</div></div>
+          <div class="m-card hl"><div class="m-label">SuiteBird nights</div><div class="m-val">+2</div><div class="m-sub">Added to occupancy</div></div>
+          <div class="m-card hl"><div class="m-label">Blended rate</div><div class="m-val">84.3%</div><div class="m-sub m-up">↑ +1.3 pts</div></div>
+        </div>
+        <div class="occ-card">
+          <div style="font-size:13px;font-weight:500;margin-bottom:12px;">Occupancy breakdown</div>
+          <div class="occ-bar-row"><div class="occ-bar-meta"><span style="color:var(--muted);font-size:12px;">Long-term residents</span><span class="occ-bar-pct">83.0%</span></div><div class="occ-track"><div class="occ-res" style="width:83%"></div></div></div>
+          <div class="occ-bar-row"><div class="occ-bar-meta"><span style="color:var(--muted);font-size:12px;">Blended with SuiteBird</span><span class="occ-bar-pct">84.3%</span></div><div class="occ-track"><div class="occ-res" style="width:83%"></div><div class="occ-sb" style="width:1.3%"></div></div></div>
+          <div class="delta-badge">+1.3 percentage points added to your reported occupancy rate</div>
+        </div>
+      </div>
+
+      <!-- EXPENSES -->
+      <div class="dash-view" id="v-expenses">
+        <div class="page-title">Stay expenses</div><div class="page-sub">Auto-calculated · 2 hrs × $15 HK · +$10 meals</div>
+        <div class="table-wrap">
+          <div style="padding:9px 15px;background:var(--warmer);border-bottom:0.5px solid var(--border);font-size:10px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:var(--muted);">Apr 1–17</div>
+          <div class="exp-row"><div style="font-size:17px;width:28px;text-align:center;">🏡</div><div class="exp-info"><div class="exp-name">Margaret Thompson</div><div class="exp-meta">Trial stay · 3 nights · Suite 204</div></div><div class="exp-chips"><div class="chip chip-rev">$0</div><div class="chip chip-cost">−$90</div><div class="chip chip-net">−$90</div></div></div>
+          <div class="exp-row"><div style="font-size:17px;width:28px;text-align:center;">👨‍👩‍👧</div><div class="exp-info"><div class="exp-name">Robert &amp; Jean Kim</div><div class="exp-meta">F&amp;F stay · 2 nights · Meals</div></div><div class="exp-chips"><div class="chip chip-rev">$300</div><div class="chip chip-cost">−$80</div><div class="chip chip-net">$220</div></div></div>
+          <div class="exp-row"><div style="font-size:17px;width:28px;text-align:center;">🏡</div><div class="exp-info"><div class="exp-name">Patricia Nguyen</div><div class="exp-meta">Trial stay · 2 nights · Suite 204</div></div><div class="exp-chips"><div class="chip chip-rev">$0</div><div class="chip chip-cost">−$60</div><div class="chip chip-net">−$60</div></div></div>
+        </div>
+        <div class="exp-sum"><div class="exp-sum-row"><span>Gross revenue</span><span>$300</span></div><div class="exp-sum-row"><span>Housekeeping (7 × $30)</span><span style="color:#F09595;">−$210</span></div><div class="exp-sum-row"><span>Meals (2 nights)</span><span style="color:#F09595;">−$20</span></div><div class="exp-sum-row"><span>Net</span><span class="exp-green">$70</span></div></div>
+      </div>
+
+      <!-- USERS -->
+      <div class="dash-view" id="v-users">
+        <div class="page-title">Users &amp; roles</div><div class="page-sub">3 seats included · 1 per role per community</div>
+        <div class="user-card-wrap">
+          <div class="user-row"><div class="u-av av1">SM</div><div style="flex:1;"><div class="u-name">Sarah Mitchell</div><div class="u-role">Executive Director · Admin 1</div><div class="perm-row"><div class="perm perm-y">Bookings</div><div class="perm perm-y">Analytics</div><div class="perm perm-y">Billing</div><div class="perm perm-y">Guests</div><div class="perm perm-y">Users</div><div class="perm perm-y">Settings</div></div></div><span class="u-tag tag-full">Full</span></div>
+          <div class="user-row"><div class="u-av av2">JP</div><div style="flex:1;"><div class="u-name">James Park</div><div class="u-role">Sales Coordinator · Admin 2</div><div class="perm-row"><div class="perm perm-y">Bookings</div><div class="perm perm-y">Analytics</div><div class="perm perm-n">Billing</div><div class="perm perm-y">Guests</div><div class="perm perm-n">Users</div><div class="perm perm-n">Settings</div></div></div><span class="u-tag tag-mgmt">Mgmt</span></div>
+          <div class="user-row"><div class="u-av av3">MS</div><div style="flex:1;"><div class="u-name">Maria Santos</div><div class="u-role">Housekeeping · Operations</div><div class="perm-row"><div class="perm perm-n">Bookings</div><div class="perm perm-n">Analytics</div><div class="perm perm-n">Billing</div><div class="perm perm-n">Guests</div><div class="perm perm-n">Users</div><div class="perm perm-y">HK tasks</div></div></div><span class="u-tag tag-ops">Ops</span></div>
+        </div>
+      </div>
+
+      <!-- HK -->
+      <div class="dash-view" id="v-hk">
+        <div class="page-title">My tasks today</div><div class="page-sub">Housekeeping &amp; maintenance queue</div>
+        <div class="hk-card"><div class="hk-header">Today — Apr 15</div>
+          <div class="hk-row"><div class="hk-icon">🧹</div><div class="hk-info"><div class="hk-name">Suite 312 — Room turnover</div><div class="hk-detail">Robert &amp; Jean Kim checkout · 11:00 AM · Meals included</div></div><div style="text-align:right;"><div class="hk-cost">$30 + $10</div><button class="hk-btn" onclick="this.className='hk-done';this.textContent='✓ Done'">Mark done</button></div></div>
+          <div class="hk-row"><div class="hk-icon">🔧</div><div class="hk-info"><div class="hk-name">Suite 204 — Temperature issue</div><div class="hk-detail">Reported by Margaret Thompson</div></div><div><button class="hk-btn" onclick="this.className='hk-done';this.textContent='✓ Resolved'">Resolve</button></div></div>
+        </div>
+        <div class="hk-card"><div class="hk-header">Upcoming — Apr 17</div>
+          <div class="hk-row"><div class="hk-icon">🧹</div><div class="hk-info"><div class="hk-name">Suite 204 — Room turnover</div><div class="hk-detail">Margaret Thompson checkout · 11:00 AM</div></div><div><div class="hk-cost">$30</div></div></div>
+        </div>
+      </div>
+
+      <!-- NETWORK -->
+      <div class="dash-view" id="v-network">
+        <div class="page-title">Inter-community travel</div><div class="page-sub">Resident &amp; staff travel across your portfolio</div>
+        <div style="background:var(--ink);color:white;border-radius:var(--r-lg);padding:20px;display:flex;align-items:center;gap:13px;"><div style="font-size:26px;">🌐</div><div style="flex:1;"><div style="font-family:'Cormorant Garamond',serif;font-size:16px;margin-bottom:2px;">Upgrade to enterprise to unlock</div><div style="font-size:12px;opacity:0.6;">Allow residents &amp; staff to book discounted stays across your portfolio</div></div><button style="background:var(--gold);color:white;border:none;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;font-family:'DM Sans',sans-serif;">Learn more</button></div>
+      </div>
+
+      <!-- BILLING -->
+      <div class="dash-view" id="v-billing">
+        <div class="page-title">Billing &amp; plan</div><div class="page-sub">Manage your SuiteBird subscription</div>
+        <div style="background:var(--white);border:0.5px solid var(--border);border-radius:var(--r-lg);padding:18px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;"><div><div style="font-size:14px;font-weight:500;">Starter plan</div><div style="font-size:12px;color:var(--muted);margin-top:2px;">$149 setup · $39/month · Up to 3 units</div></div><span style="background:var(--blue-l);color:var(--blue-d);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:500;">Free trial</span></div><div style="font-size:12px;color:var(--muted);line-height:1.7;">Trial ends Apr 28, 2026. Add a payment method to continue.</div></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- GUEST LISTING PAGE -->
+<div class="screen" id="s-listing">
+<div class="listing-wrap">
+  <button class="back-btn" onclick="goTo('s-dashboard')">← Back to dashboard</button>
+  <div style="padding:4px 18px 6px;font-size:11px;color:var(--muted);font-style:italic;">Preview — guest listing page · suitebird.com/stay/meadowbrook/suite-204</div>
+  <div style="background:var(--white);border-bottom:0.5px solid var(--border);padding:10px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+    <div style="font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);">Community color</div>
+    <div style="display:flex;gap:6px;">
+      <div style="width:24px;height:24px;border-radius:50%;background:#3A7FD5;cursor:pointer;border:2px solid var(--ink);" onclick="setComColor('#3A7FD5','#2260B0',this)"></div>
+      <div style="width:24px;height:24px;border-radius:50%;background:#2E7D6B;cursor:pointer;border:2px solid transparent;" onclick="setComColor('#2E7D6B','#1a5a4d',this)"></div>
+      <div style="width:24px;height:24px;border-radius:50%;background:#8B3A9E;cursor:pointer;border:2px solid transparent;" onclick="setComColor('#8B3A9E','#6a2a7e',this)"></div>
+      <div style="width:24px;height:24px;border-radius:50%;background:#C0622A;cursor:pointer;border:2px solid transparent;" onclick="setComColor('#C0622A','#a04818',this)"></div>
+      <div style="width:24px;height:24px;border-radius:50%;background:#5A7A3A;cursor:pointer;border:2px solid transparent;" onclick="setComColor('#5A7A3A','#3d5c28',this)"></div>
+    </div>
+    <div style="width:0.5px;height:24px;background:var(--border);"></div>
+    <div style="font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);">Name</div>
+    <input style="background:var(--warm);border:0.5px solid var(--border-med);border-radius:7px;padding:5px 10px;font-size:12px;font-family:'DM Sans',sans-serif;color:var(--ink);width:180px;" value="Meadowbrook Senior Living" oninput="updateLPName(this.value)"/>
+    <div style="margin-left:auto;font-size:11px;color:var(--muted);font-style:italic;">Live preview</div>
+  </div>
+  <div class="lp-hero">
+    <div class="lp-bg" id="lp-bg"></div>
+    <div class="lp-overlay"></div>
+    <div class="lp-nav">
+      <div class="lp-com-logo"><div class="lp-logo-circle"><span id="lp-initials">MS</span></div><div class="lp-com-name" id="lp-com-name">Meadowbrook Senior Living</div></div>
+      <div class="lp-sb-badge">🐦 Powered by SuiteBird</div>
+    </div>
+    <div class="lp-content">
+      <div class="lp-eyebrow">Portland, Oregon · Independent Living</div>
+      <div class="lp-title" id="lp-title">Meadowbrook<br><em>Senior Living</em></div>
+      <div class="lp-meta"><div class="lp-stars">★★★★★</div><div class="lp-div"></div><span>4.9 · 24 stays</span><div class="lp-div"></div><span>166 residences</span></div>
+    </div>
+  </div>
+  <div class="photo-grid"><div class="ph ph-a"></div><div class="ph-sub"><div class="ph ph-b"></div><div class="ph ph-c"></div></div><div class="ph-sub"><div class="ph ph-d"></div><div class="ph ph-e"></div></div></div>
+  <div class="lp-body">
+    <div>
+      <div class="lp-eyebrow2">Suite 204 · Courtyard view</div>
+      <div class="lp-suite-title">A refined one-bedroom<br>with full kitchen &amp; garden access</div>
+      <div class="lp-suite-sub">1 bed · 1 bath · 693 sq ft · Furnished · Ground floor</div>
+      <div class="lp-tags"><span class="lp-tag">Full kitchen</span><span class="lp-tag">In-suite laundry</span><span class="lp-tag">Courtyard view</span><span class="lp-tag">Wifi</span><span class="lp-tag">Concierge</span><span class="lp-tag">Dining access</span></div>
+      <div class="lp-divider"></div>
+      <div class="lp-sec-title">About this stay</div>
+      <div class="lp-body-text">Suite 204 offers a thoughtfully furnished one-bedroom apartment. Floor-to-ceiling windows open onto a private courtyard. No sales staff will contact you during your stay. This time is yours.</div>
+      <div class="lp-divider"></div>
+      <div class="lp-sec-title">Amenities</div>
+      <div class="lp-am-grid"><div class="lp-am"><div class="lp-am-icon">🍳</div>Full kitchen</div><div class="lp-am"><div class="lp-am-icon">🛁</div>Private bathroom</div><div class="lp-am"><div class="lp-am-icon">📶</div>High-speed wifi</div><div class="lp-am"><div class="lp-am-icon">🌿</div>Garden access</div><div class="lp-am"><div class="lp-am-icon">🍽️</div>Dining room access</div><div class="lp-am"><div class="lp-am-icon">🛎️</div>24-hour concierge</div></div>
+      <div class="lp-divider"></div>
+      <div class="lp-sec-title">Stay options</div>
+      <div class="lp-stay-card"><div class="lp-sc-icon">🏡</div><div><div class="lp-sc-name">Trial stay</div><div class="lp-sc-desc">Complimentary for prospective residents.</div></div><div class="lp-sc-price">Complimentary</div></div>
+      <div class="lp-stay-card"><div class="lp-sc-icon">👨‍👩‍👧</div><div><div class="lp-sc-name">Friend &amp; family stay</div><div class="lp-sc-desc">For visiting families. Arranged by your team.</div></div><div class="lp-sc-price">From $150/night</div></div>
+    </div>
+    <div>
+      <div class="bp" id="lp-bp">
+        <div id="lp-bp-form">
+          <div class="bp-head" id="lp-bp-head"><div class="bp-ct" id="lp-bp-ct">Meadowbrook Senior Living</div><div class="bp-sn">Suite 204 · Courtyard view</div><div class="bp-meta"><div class="bp-stars">★★★★★</div><span>4.9 · 24 stays</span></div></div>
+          <div class="bp-body">
+            <label class="bp-label">Stay type</label>
+            <div class="bp-types">
+              <button class="bp-type active" id="lp-bpt-trial" onclick="lpSelType('trial')"><span style="font-size:14px;">🏡</span><span class="bp-type-name">Trial stay</span><span class="bp-type-price">Complimentary</span></button>
+              <button class="bp-type" id="lp-bpt-ff" onclick="lpSelType('ff')"><span style="font-size:14px;">👨‍👩‍👧</span><span class="bp-type-name">Friend &amp; family</span><span class="bp-type-price">$150/night</span></button>
+            </div>
+            <label class="bp-label">Your name</label><input class="bp-input" id="lp-name" placeholder="Full name"/>
+            <label class="bp-label">Email</label><input class="bp-input" id="lp-email" placeholder="your@email.com"/>
+            <label class="bp-label">Dates</label>
+            <div class="date-row"><div><label class="bp-label">Check-in</label><input class="bp-input" type="date" id="lp-ci" style="margin-bottom:0;" oninput="lpCalcCost()"/></div><div><label class="bp-label">Check-out</label><input class="bp-input" type="date" id="lp-co" style="margin-bottom:0;" oninput="lpCalcCost()"/></div></div>
+            <div class="cost-box" id="lp-cost" style="display:none;"><div class="cost-row"><span class="lbl" id="lp-cost-lbl">2 × $150</span><span id="lp-cost-sub">$300</span></div><div class="cost-row"><span class="lbl">Platform fee</span><span>$15</span></div><div class="cost-row total"><span>Total</span><span id="lp-cost-tot">$315</span></div></div>
+            <button class="bp-cta" id="lp-cta" onclick="lpSubmit()">Request this stay</button>
+            <div class="bp-note">Your request goes to the team. You'll hear back within a few hours.</div>
+            <div class="direct-lock"><strong>🔒 Direct booking coming soon</strong></div>
+          </div>
+          <div class="bp-watermark">🐦 Powered by SuiteBird.com</div>
+        </div>
+        <div class="bp-confirm" id="lp-bp-conf">
+          <div class="conf-circle"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10l4.5 4.5L17 5" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="conf-title">Request received</div>
+          <div class="conf-sub">The team will confirm within a few hours.</div>
+          <div class="conf-code" style="width:100%;"><div class="conf-code-label">Reference</div><div class="conf-code-val">MB-2049</div></div>
+          <div class="conf-pills"><span class="conf-pill" id="lp-conf-dates">–</span><span class="conf-pill">Suite 204</span><span class="conf-pill" id="lp-conf-type">Trial stay</span></div>
+          <div class="bp-watermark" style="width:100%;">🐦 Powered by SuiteBird.com</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- GUEST APP -->
+<div class="screen" id="s-guest">
+  <button class="back-btn" onclick="goTo('s-dashboard')">← Back to dashboard</button>
+  <div style="padding:4px 18px 8px;font-size:11px;color:var(--muted);font-style:italic;">Preview — what the guest sees after opening the booking link</div>
+  <div style="display:flex;justify-content:center;padding:0 16px 28px;">
+  <div class="guest-shell">
+    <div class="g-header" id="g-header" style="background:linear-gradient(135deg,#2260B0,#3A7FD5);">
+      <div class="g-badge">Guest experience · Suite 204</div>
+      <div class="g-name">Meadowbrook Senior Living</div>
+      <div class="g-watermark">Powered by SuiteBird</div>
+    </div>
+    <div id="gs-welcome" class="g-content">
+      <div class="g-card">
+        <div class="g-card-img"><div class="g-unit-label">Suite 204 · 1 bed/1 bath</div><div class="g-stay-badge" id="g-stay-badge" style="background:#3A7FD5;">Trial stay</div></div>
+        <div class="g-card-body"><div class="g-card-title">Welcome, Margaret</div><div class="g-card-sub">Your stay at Meadowbrook has been arranged. No pressure — just a genuine experience of the community.</div></div>
+      </div>
+      <div style="background:var(--white);border:0.5px solid var(--border);border-radius:var(--r-lg);padding:14px;">
+        <label class="g-form-label">Your full name</label><input class="g-input" value="Margaret Thompson"/>
+        <label class="g-form-label">Email</label><input class="g-input" value="mthompson@email.com"/>
+        <label class="g-form-label">Phone</label><input class="g-input" value="(555) 842-1901"/>
+      </div>
+      <button class="g-btn" id="g-confirm-btn" style="background:#3A7FD5;" onclick="gConfirm()">Confirm my stay</button>
+    </div>
+    <div id="gs-confirmed" style="display:none;" class="g-content">
+      <div class="g-confirm" id="g-conf-box" style="background:#3A7FD5;"><div class="g-code-label">Booking confirmed</div><div class="g-code-val">MB-2047</div><div class="g-pills"><span class="g-pill" style="background:rgba(255,255,255,0.2);color:white;">Apr 14–17</span><span class="g-pill" style="background:rgba(255,255,255,0.2);color:white;">Suite 204</span><span class="g-pill" style="background:rgba(255,255,255,0.2);color:white;">3 nights</span></div></div>
+      <div class="g-nav-tabs"><div class="g-nav-tab active" onclick="gTab(this,'gt-stay')">My stay</div><div class="g-nav-tab" onclick="gTab(this,'gt-events')">Events</div><div class="g-nav-tab" onclick="gTab(this,'gt-service')">Service</div></div>
+      <div id="gt-stay" class="g-section">
+        <div style="background:var(--white);border:0.5px solid var(--border);border-radius:var(--r-lg);padding:14px;margin-bottom:10px;"><div style="display:flex;align-items:center;gap:7px;background:var(--green-l);border-radius:7px;padding:8px 11px;margin-bottom:10px;"><div style="width:7px;height:7px;border-radius:50%;background:var(--green);"></div><div style="font-size:12px;font-weight:500;color:var(--green);">Checked in · Apr 14</div></div><div style="display:flex;justify-content:space-between;font-size:12px;padding:6px 0;border-bottom:0.5px solid var(--border);"><span style="color:var(--muted);">Check-out</span><span style="font-weight:500;">Thu Apr 17 · 11:00 AM</span></div><div style="display:flex;justify-content:space-between;font-size:12px;padding:6px 0;"><span style="color:var(--muted);">Suite</span><span style="font-weight:500;">204 · 1 bed/1 bath</span></div></div>
+        <div class="g-action" onclick="gTab(document.querySelectorAll('.g-nav-tab')[1],'gt-events')"><div class="g-action-icon">📅</div><div class="g-action-name">Community events</div><div class="g-action-arr">›</div></div>
+        <div class="g-action" onclick="gTab(document.querySelectorAll('.g-nav-tab')[2],'gt-service')"><div class="g-action-icon">🔧</div><div class="g-action-name">Report an issue</div><div class="g-action-arr">›</div></div>
+        <div class="g-action" onclick="gCheckout()"><div class="g-action-icon">🚪</div><div class="g-action-name">Check out</div><div class="g-action-arr">›</div></div>
+      </div>
+      <div id="gt-events" class="g-section" style="display:none;">
+        <div class="g-event"><div class="g-event-date" id="ged1" style="background:#3A7FD5;"><div class="g-event-month">Apr</div><div class="g-event-day">14</div></div><div><div class="g-event-name">Welcome reception</div><div class="g-event-detail">5:30 PM · Skyview Lounge</div></div></div>
+        <div class="g-event"><div class="g-event-date" id="ged2" style="background:#3A7FD5;"><div class="g-event-month">Apr</div><div class="g-event-day">15</div></div><div><div class="g-event-name">Morning yoga &amp; stretch</div><div class="g-event-detail">8:00 AM · Wellness Center</div></div></div>
+        <div class="g-event"><div class="g-event-date" id="ged3" style="background:#3A7FD5;"><div class="g-event-month">Apr</div><div class="g-event-day">15</div></div><div><div class="g-event-name">Garden tour with residents</div><div class="g-event-detail">2:00 PM · Main courtyard</div></div></div>
+      </div>
+      <div id="gt-service" class="g-section" style="display:none;">
+        <div class="g-issue-grid"><button class="g-issue-btn" onclick="this.classList.toggle('selected')"><div class="g-issue-icon">💡</div><div class="g-issue-label">Lighting</div></button><button class="g-issue-btn" onclick="this.classList.toggle('selected')"><div class="g-issue-icon">🌡️</div><div class="g-issue-label">Temperature</div></button><button class="g-issue-btn" onclick="this.classList.toggle('selected')"><div class="g-issue-icon">🚿</div><div class="g-issue-label">Plumbing</div></button><button class="g-issue-btn" onclick="this.classList.toggle('selected')"><div class="g-issue-icon">📶</div><div class="g-issue-label">WiFi</div></button></div>
+        <textarea class="g-input" rows="3" placeholder="Describe the issue..." style="resize:none;"></textarea>
+        <button class="g-btn" id="g-issue-btn" style="background:var(--gold);" onclick="gSubmitIssue()">Send to staff</button>
+      </div>
+    </div>
+    <div id="gs-checkout" style="display:none;" class="g-content">
+      <div style="text-align:center;padding:10px 0;"><div style="width:50px;height:50px;border-radius:50%;background:var(--ink);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;"><span style="color:white;font-size:20px;">🚪</span></div><div style="font-family:'Cormorant Garamond',serif;font-size:22px;margin-bottom:6px;">Safe travels, Margaret</div><div style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:16px;">Housekeeping has been notified. Please leave your key at the front desk.</div><div style="background:var(--green-l);border-radius:var(--r);padding:14px 16px;font-size:12px;color:var(--green);line-height:1.7;margin-bottom:14px;text-align:left;"><strong style="display:block;margin-bottom:4px;">What's next</strong>Our team will follow up within a few days. If you'd like to learn more about living at Meadowbrook, we'd love to arrange a personal tour.</div><button class="g-btn" style="background:#3A7FD5;" onclick="gsReset()">Start new booking</button></div>
+    </div>
+  </div>
+  </div>
+</div>
+
+<!-- BOOKING MODAL -->
+<div class="modal-overlay hidden" id="modal">
+<div class="modal">
+  <button class="modal-close" onclick="closeModal()">×</button>
+  <div class="modal-title">New booking</div>
+  <div class="modal-sub">Admin creates the booking link and sends it to the guest.</div>
+  <div class="type-tabs"><button class="type-tab active" onclick="mSelType(this)">Trial stay</button><button class="type-tab" onclick="mSelType(this)">Friend &amp; family</button><button class="type-tab" onclick="mSelType(this)">Inter-community</button></div>
+  <div class="form-group"><label class="form-label">Guest name</label><input class="form-input" placeholder="Full name"/></div>
+  <div class="form-group"><label class="form-label">Guest email</label><input class="form-input" placeholder="guest@email.com"/></div>
+  <div class="form-row"><div class="form-group"><label class="form-label">Check-in</label><input class="form-input" type="date"/></div><div class="form-group"><label class="form-label">Check-out</label><input class="form-input" type="date"/></div></div>
+  <div class="form-group"><label class="form-label">Assign unit</label><select class="form-input"><option>Suite 204 — 1 bed/1 bath (Available)</option><option>Suite 312 — 2 bed/2 bath (Available)</option><option disabled>Suite 108 — Studio (Occupied)</option></select></div>
+  <div class="form-group"><label class="form-label">Meals included?</label><select class="form-input"><option>No meals</option><option>Yes — +$10/night</option></select></div>
+  <button class="btn-primary" onclick="genLink()">Generate booking link + QR</button>
+  <div class="link-box" id="m-link" style="display:none;"><div class="link-url">suitebird.com/stay/meadowbrook/MB-2050</div><button class="copy-btn" onclick="this.textContent='Copied!'">Copy</button></div>
+  <div id="m-qr" style="display:none;text-align:center;margin-top:12px;">
+    <svg width="72" height="72" viewBox="0 0 80 80" style="border:0.5px solid var(--border);border-radius:8px;padding:5px;background:var(--warm);"><rect x="4" y="4" width="24" height="24" rx="2" fill="none" stroke="var(--ink)" stroke-width="2"/><rect x="8" y="8" width="16" height="16" rx="1" fill="var(--ink)"/><rect x="52" y="4" width="24" height="24" rx="2" fill="none" stroke="var(--ink)" stroke-width="2"/><rect x="56" y="8" width="16" height="16" rx="1" fill="var(--ink)"/><rect x="4" y="52" width="24" height="24" rx="2" fill="none" stroke="var(--ink)" stroke-width="2"/><rect x="8" y="56" width="16" height="16" rx="1" fill="var(--ink)"/><rect x="52" y="52" width="8" height="8" fill="var(--ink)"/><rect x="64" y="52" width="8" height="8" fill="var(--ink)"/><rect x="52" y="64" width="8" height="8" fill="var(--ink)"/><rect x="64" y="64" width="16" height="16" fill="var(--ink)"/></svg>
+    <div style="font-size:11px;color:var(--muted);margin-top:5px;">Share QR or copy link</div>
+    <button class="btn-secondary" style="max-width:200px;margin:10px auto 0;" onclick="closeModal()">Done — send to guest</button>
+  </div>
+</div>
+</div>
+
+</div>
+<script>
+let currentRole='admin1';let lpStayType='trial';
+const ROLES={
+  admin1:{name:'Sarah Mitchell',av:'SM',greet:'Good morning, Sarah',trial:'Trial · 14 days left',hide:[]},
+  admin2:{name:'James Park',av:'JP',greet:'Good morning, James',trial:'Trial · 14 days left',hide:['ni-users','ni-billing','ni-expenses','ns-acct']},
+  hk:{name:'Maria Santos',av:'MS',greet:"Today's tasks, Maria",trial:'',hide:['ni-overview','ni-bookings','ni-units','ni-guests','ni-analytics','ni-expenses','ni-network','ni-users','ni-billing','ns-team','ns-acct']}
+};
+function setRole(r){
+  currentRole=r;const role=ROLES[r];
+  document.getElementById('tb-av').textContent=role.av;
+  document.getElementById('tb-nm').textContent=role.name;
+  document.getElementById('ov-greet').textContent=role.greet;
+  const tp=document.getElementById('tb-trial');tp.textContent=role.trial;tp.style.display=role.trial?'':'none';
+  ['ni-overview','ni-bookings','ni-units','ni-guests','ni-analytics','ni-expenses','ni-network','ni-users','ni-billing','ns-team','ns-acct'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='';});
+  role.hide.forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
+  const nb=document.getElementById('btn-new');if(nb)nb.style.display=r==='hk'?'none':'';
+  if(r==='hk'){
+    let hkNav=document.getElementById('hk-nav-item');
+    if(!hkNav){hkNav=document.createElement('div');hkNav.className='nav-item';hkNav.id='hk-nav-item';hkNav.innerHTML='<span class="nav-icon">🧹</span>My tasks<span class="nav-badge">2</span>';hkNav.onclick=function(){sv(this,'v-hk');};document.querySelector('.sidebar').appendChild(hkNav);}
+    hkNav.style.display='';sv(hkNav,'v-hk');
+  } else {
+    const hkNav=document.getElementById('hk-nav-item');if(hkNav)hkNav.style.display='none';
+    svById('v-overview');document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+    const ov=document.getElementById('ni-overview');if(ov)ov.classList.add('active');
+  }
+}
+function goTo(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');window.scrollTo(0,0);
+  document.querySelectorAll('.beta-flow-btn').forEach(b=>b.classList.remove('active'));
+  const map={'s-login':'flow-auth','s-signup':'flow-signup','s-dashboard':'flow-dash','s-listing':'flow-listing','s-guest':'flow-guest'};
+  const bid=map[id];if(bid){const el=document.getElementById(bid);if(el)el.classList.add('active');}
+}
+function jumpTo(sId,bId){goTo(sId);document.querySelectorAll('.beta-flow-btn').forEach(b=>b.classList.remove('active'));const el=document.getElementById(bId);if(el)el.classList.add('active');}
+function sv(navEl,viewId){document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));navEl.classList.add('active');svById(viewId);}
+function svById(id){document.querySelectorAll('.dash-view').forEach(v=>v.classList.remove('active'));const el=document.getElementById(id);if(el)el.classList.add('active');}
+function obStep(n){for(let i=1;i<=5;i++){const el=document.getElementById('ob'+i);if(el)el.style.display='none';}document.getElementById('ob'+n).style.display='block';}
+function adj(id,d){const el=document.getElementById(id);const v=parseInt(el.textContent)+d;if(v>=1&&v<=10)el.textContent=v;}
+function openModal(){document.getElementById('modal').classList.remove('hidden');document.getElementById('m-link').style.display='none';document.getElementById('m-qr').style.display='none';}
+function closeModal(){document.getElementById('modal').classList.add('hidden');}
+function mSelType(btn){document.querySelectorAll('.type-tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');}
+function genLink(){document.getElementById('m-link').style.display='flex';setTimeout(()=>document.getElementById('m-qr').style.display='block',200);}
+document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+function setComColor(hex,dark,swatchEl){
+  document.querySelectorAll('[onclick*="setComColor"]').forEach(s=>s.style.border='2px solid transparent');
+  swatchEl.style.border='2px solid var(--ink)';
+  document.getElementById('lp-bg').style.background=`linear-gradient(160deg,${dark}cc 0%,${dark} 50%,${hex} 100%)`;
+  document.getElementById('lp-bp-head').style.background=`linear-gradient(135deg,${dark},${hex})`;
+  document.getElementById('lp-cta').style.background=hex;
+  document.documentElement.style.setProperty('--com',hex);
+  document.documentElement.style.setProperty('--com-l',hex+'22');
+  document.documentElement.style.setProperty('--com-d',dark);
+  document.getElementById('g-header').style.background=`linear-gradient(135deg,${dark},${hex})`;
+  document.getElementById('g-confirm-btn').style.background=hex;
+  document.getElementById('g-stay-badge').style.background=hex;
+  document.getElementById('g-conf-box').style.background=hex;
+  ['ged1','ged2','ged3'].forEach(id=>{const e=document.getElementById(id);if(e)e.style.background=hex;});
+}
+function updateLPName(name){
+  const p=name.trim().split(' ');
+  const ini=((p[0]?.[0]||'')+(p[1]?.[0]||'')).toUpperCase();
+  document.getElementById('lp-com-name').textContent=name||'Your Community';
+  document.getElementById('lp-initials').textContent=ini||'C';
+  document.getElementById('lp-bp-ct').textContent=name;
+  const w=name.split(' ');
+  document.getElementById('lp-title').innerHTML=(w.slice(0,2).join(' '))+(w.slice(2).join(' ')?'<br><em>'+w.slice(2).join(' ')+'</em>':'');
+}
+function lpSelType(t){lpStayType=t;document.getElementById('lp-bpt-trial').classList.toggle('active',t==='trial');document.getElementById('lp-bpt-ff').classList.toggle('active',t==='ff');lpCalcCost();}
+function lpCalcCost(){
+  const ci=document.getElementById('lp-ci').value,co=document.getElementById('lp-co').value;
+  if(!ci||!co)return;const n=Math.round((new Date(co)-new Date(ci))/86400000);if(n<=0)return;
+  const cb=document.getElementById('lp-cost');if(lpStayType==='trial'){cb.style.display='none';return;}
+  cb.style.display='block';const sub=n*150;
+  document.getElementById('lp-cost-lbl').textContent=n+' × $150';
+  document.getElementById('lp-cost-sub').textContent='$'+sub;
+  document.getElementById('lp-cost-tot').textContent='$'+(sub+15);
+}
+function lpSubmit(){
+  const n=document.getElementById('lp-name').value,e=document.getElementById('lp-email').value,ci=document.getElementById('lp-ci').value,co=document.getElementById('lp-co').value;
+  if(!n||!e||!ci||!co){const b=document.getElementById('lp-cta');b.textContent='Fill in all fields';setTimeout(()=>b.textContent='Request this stay',2000);return;}
+  const d1=new Date(ci),d2=new Date(co),opts={month:'short',day:'numeric'};
+  document.getElementById('lp-conf-dates').textContent=d1.toLocaleDateString('en-US',opts)+' – '+d2.toLocaleDateString('en-US',opts);
+  document.getElementById('lp-conf-type').textContent=lpStayType==='trial'?'Trial stay':'F&F stay';
+  document.getElementById('lp-bp-form').style.display='none';
+  const conf=document.getElementById('lp-bp-conf');conf.style.display='flex';conf.style.flexDirection='column';
+}
+function gConfirm(){document.getElementById('gs-welcome').style.display='none';document.getElementById('gs-confirmed').style.display='block';}
+function gTab(el,id){document.querySelectorAll('.g-nav-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');['gt-stay','gt-events','gt-service'].forEach(t=>{const e=document.getElementById(t);if(e)e.style.display='none';});const el2=document.getElementById(id);if(el2)el2.style.display='block';}
+function gCheckout(){document.getElementById('gs-confirmed').style.display='none';document.getElementById('gs-checkout').style.display='block';}
+function gSubmitIssue(){const b=document.getElementById('g-issue-btn');b.textContent='✓ Sent to staff';b.style.background='var(--green)';setTimeout(()=>{b.textContent='Send to staff';b.style.background='var(--gold)';document.querySelectorAll('.g-issue-btn').forEach(btn=>btn.classList.remove('selected'));},2500);}
+function gsReset(){document.getElementById('gs-checkout').style.display='none';document.getElementById('gs-welcome').style.display='flex';document.getElementById('gs-confirmed').style.display='none';}
+setComColor('#3A7FD5','#2260B0',document.querySelector('[onclick*="setComColor"]'));
+</script>
+</body>
+</html>
