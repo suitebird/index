@@ -335,6 +335,123 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm);color:var(--ink);mi
   .dash-body{flex-direction:column;}
   .sidebar{width:100%;border-right:none;border-bottom:0.5px solid var(--border);}
 }
+
+/* ── HK MAKE-READY ── */
+.hk-mr-unit-tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+.hk-mr-tab{background:var(--white);border:0.5px solid var(--border-med);border-radius:var(--r);padding:10px 16px;cursor:pointer;transition:all 0.2s;text-align:center;min-width:120px;}
+.hk-mr-tab:hover{border-color:var(--blue);}
+.hk-mr-tab.mr-active{background:var(--blue-l);border-color:var(--blue);}
+.hk-mr-tab.mr-done{background:var(--green-l);border-color:rgba(45,122,79,0.3);}
+.hk-mr-tab-name{font-size:13px;font-weight:500;}
+.hk-mr-tab.mr-active .hk-mr-tab-name{color:var(--blue-d);}
+.hk-mr-tab.mr-done .hk-mr-tab-name{color:var(--green);}
+.hk-mr-tab-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+.hk-mr-tab.mr-active .hk-mr-tab-sub{color:var(--blue);}
+.hk-mr-tab.mr-done .hk-mr-tab-sub{color:var(--green);}
+
+.hk-ctx-banner{background:var(--white);border:0.5px solid var(--border);border-radius:var(--r-lg);padding:14px 18px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.hk-ctx-left{display:flex;align-items:center;gap:12px;}
+.hk-ctx-icon{font-size:20px;}
+.hk-ctx-name{font-size:13px;font-weight:500;}
+.hk-ctx-meta{font-size:11px;color:var(--muted);margin-top:2px;}
+.hk-ctx-dates{display:flex;gap:18px;flex-wrap:wrap;}
+.hk-ctx-date-block{text-align:center;}
+.hk-ctx-date-label{font-size:10px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:var(--muted);margin-bottom:2px;}
+.hk-ctx-date-val{font-size:12px;font-weight:500;}
+.hk-ctx-badge{font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;}
+.hk-badge-trial{background:var(--blue-l);color:var(--blue-d);}
+.hk-badge-ff{background:var(--gold-l);color:var(--gold);}
+
+.hk-prog-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:14px;}
+.hk-prog-step{background:var(--white);border:0.5px solid var(--border);border-radius:var(--r);padding:9px 11px;display:flex;align-items:center;gap:7px;cursor:pointer;transition:all 0.15s;}
+.hk-prog-step:hover{border-color:var(--blue);}
+.hk-prog-step.hk-step-active{border-color:var(--blue);background:var(--blue-l);}
+.hk-prog-step.hk-step-done{border-color:rgba(45,122,79,0.3);background:var(--green-l);}
+.hk-prog-num{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0;}
+.hk-pn-idle{background:var(--warm);color:var(--muted);}
+.hk-pn-active{background:var(--blue);color:white;}
+.hk-pn-done{background:var(--green);color:white;}
+.hk-prog-label{font-size:11px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.hk-prog-step.hk-step-active .hk-prog-label{color:var(--blue-d);}
+.hk-prog-step.hk-step-done .hk-prog-label{color:var(--green);}
+.hk-prog-count{font-size:10px;color:var(--muted);margin-top:1px;}
+.hk-prog-step.hk-step-active .hk-prog-count{color:var(--blue);}
+.hk-prog-step.hk-step-done .hk-prog-count{color:var(--green);}
+
+.hk-check-card{background:var(--white);border:0.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden;margin-bottom:10px;}
+.hk-check-hdr{padding:10px 15px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:9px;}
+.hk-hdr-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.hk-dot-red{background:var(--red);}
+.hk-dot-amber{background:#EF9F27;}
+.hk-dot-blue{background:var(--blue);}
+.hk-dot-green{background:var(--green);}
+.hk-check-hdr h3{font-size:13px;font-weight:500;flex:1;}
+.hk-timing{font-size:11px;color:var(--muted);background:var(--warm);padding:2px 8px;border-radius:20px;}
+.hk-done-count{font-size:11px;color:var(--muted);margin-left:auto;}
+
+.hk-task-row{display:flex;align-items:flex-start;gap:11px;padding:9px 15px;border-bottom:0.5px solid var(--border);cursor:pointer;transition:background 0.15s;}
+.hk-task-row:last-child{border-bottom:none;}
+.hk-task-row:hover{background:var(--warmer);}
+.hk-task-row.hk-checked{background:#FAFFFE;}
+.hk-task-chk{width:17px;height:17px;border:1.5px solid #ccc;border-radius:4px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.hk-task-row.hk-checked .hk-task-chk{background:var(--green);border-color:var(--green);}
+.hk-chk-mark{font-size:10px;color:white;display:none;}
+.hk-task-row.hk-checked .hk-chk-mark{display:block;}
+.hk-task-label{font-size:12px;line-height:1.5;flex:1;}
+.hk-task-row.hk-checked .hk-task-label{color:var(--muted);text-decoration:line-through;}
+.hk-task-pri{display:inline-block;border-radius:20px;padding:1px 6px;font-size:10px;font-weight:500;margin-top:3px;}
+.hk-pri-critical{background:var(--red-l);color:var(--red);}
+.hk-pri-required{background:var(--blue-l);color:var(--blue-d);}
+.hk-pri-optional{background:var(--warm);color:var(--muted);}
+
+.hk-step-sec{display:none;}
+.hk-step-sec.hk-sec-active{display:block;}
+
+.hk-flag-area{background:var(--warm);border:0.5px dashed var(--border-med);border-radius:var(--r);padding:10px 13px;margin:8px 15px;display:flex;align-items:center;gap:9px;}
+.hk-flag-input{flex:1;background:transparent;border:none;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--ink);outline:none;}
+.hk-flag-input::placeholder{color:#bbb;}
+.hk-flag-btn{background:var(--red-l);color:var(--red);border:0.5px solid rgba(192,57,43,0.2);border-radius:7px;padding:5px 11px;font-size:11px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;}
+.hk-issue-list{margin:0 15px 8px;display:flex;flex-direction:column;gap:4px;}
+.hk-issue-item{background:var(--red-l);border:0.5px solid rgba(192,57,43,0.2);border-radius:6px;padding:6px 11px;font-size:11px;color:var(--red);display:flex;align-items:center;gap:7px;}
+.hk-issue-item span{flex:1;}
+.hk-issue-rm{cursor:pointer;color:rgba(192,57,43,0.5);}
+.hk-issue-rm:hover{color:var(--red);}
+
+.hk-step-footer{display:flex;align-items:center;justify-content:space-between;padding:10px 0 4px;margin-top:6px;}
+.hk-complete-btn{background:var(--green);color:white;border:none;border-radius:var(--r);padding:10px 22px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:background 0.2s;}
+.hk-complete-btn:hover{background:#246b42;}
+.hk-skip{font-size:12px;color:var(--muted);cursor:pointer;padding:8px;}
+.hk-skip:hover{color:var(--ink);}
+
+.hk-signoff-card{background:var(--white);border:0.5px solid var(--border);border-radius:var(--r-lg);padding:18px;margin-bottom:10px;}
+.hk-signoff-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:12px;}
+.hk-signoff-block label{font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px;}
+.hk-sign-line{border-bottom:1.5px solid #e0e0e0;height:26px;margin-bottom:4px;}
+.hk-sign-name{font-size:11px;color:#bbb;}
+.hk-submit-btn{background:var(--blue);color:white;border:none;border-radius:var(--r);padding:12px 22px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;width:100%;margin-top:14px;transition:background 0.2s;}
+.hk-submit-btn:hover{background:var(--blue-d);}
+
+.hk-complete-banner{background:var(--green-l);border:0.5px solid rgba(45,122,79,0.25);border-radius:var(--r-lg);padding:16px 18px;display:flex;align-items:center;gap:14px;margin-bottom:14px;}
+.hk-complete-icon{font-size:24px;}
+.hk-complete-title{font-size:14px;font-weight:500;color:var(--green);}
+.hk-complete-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+.hk-reset-btn{margin-left:auto;background:white;border:0.5px solid rgba(45,122,79,0.3);border-radius:var(--r);padding:7px 14px;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--green);cursor:pointer;white-space:nowrap;}
+.hk-reset-btn:hover{background:var(--green-l);}
+
+.hk-par-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.hk-par-card{background:var(--white);border:0.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden;}
+.hk-par-hdr{padding:9px 13px;border-bottom:0.5px solid var(--border);font-size:12px;font-weight:500;display:flex;align-items:center;gap:7px;}
+.hk-par-row{display:flex;align-items:center;justify-content:space-between;padding:7px 13px;border-bottom:0.5px solid var(--border);font-size:11px;gap:7px;}
+.hk-par-row:last-child{border-bottom:none;}
+.hk-par-item{flex:1;color:var(--ink);}
+.hk-par-qty{font-weight:500;white-space:nowrap;}
+.hk-par-trigger{color:var(--red);white-space:nowrap;font-size:10px;}
+
+@media(max-width:640px){
+  .hk-prog-strip{grid-template-columns:1fr 1fr;}
+  .hk-par-grid{grid-template-columns:1fr;}
+  .hk-signoff-grid{grid-template-columns:1fr;}
+}
 </style>
 </head>
 <body>
@@ -347,6 +464,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm);color:var(--ink);mi
     <button class="beta-flow-btn active" id="flow-auth" onclick="jumpTo('s-login','flow-auth')">Operator login</button>
     <button class="beta-flow-btn" id="flow-signup" onclick="jumpTo('s-signup','flow-signup')">New signup</button>
     <button class="beta-flow-btn" id="flow-dash" onclick="jumpTo('s-dashboard','flow-dash');setRole('admin1')">Dashboard</button>
+    <button class="beta-flow-btn" id="flow-hk" onclick="jumpTo('s-dashboard','flow-hk');setRole('hk')">HK make-ready</button>
     <button class="beta-flow-btn" id="flow-listing" onclick="jumpTo('s-listing','flow-listing')">Guest listing</button>
     <button class="beta-flow-btn" id="flow-guest" onclick="jumpTo('s-guest','flow-guest')">Guest app</button>
   </div>
@@ -554,15 +672,166 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm);color:var(--ink);mi
         </div>
       </div>
 
-      <!-- HK -->
+      <!-- HK MAKE-READY -->
       <div class="dash-view" id="v-hk">
-        <div class="page-title">My tasks today</div><div class="page-sub">Housekeeping &amp; maintenance queue</div>
-        <div class="hk-card"><div class="hk-header">Today — Apr 15</div>
-          <div class="hk-row"><div class="hk-icon">🧹</div><div class="hk-info"><div class="hk-name">Suite 312 — Room turnover</div><div class="hk-detail">Robert &amp; Jean Kim checkout · 11:00 AM · Meals included</div></div><div style="text-align:right;"><div class="hk-cost">$30 + $10</div><button class="hk-btn" onclick="this.className='hk-done';this.textContent='✓ Done'">Mark done</button></div></div>
-          <div class="hk-row"><div class="hk-icon">🔧</div><div class="hk-info"><div class="hk-name">Suite 204 — Temperature issue</div><div class="hk-detail">Reported by Margaret Thompson</div></div><div><button class="hk-btn" onclick="this.className='hk-done';this.textContent='✓ Resolved'">Resolve</button></div></div>
+        <div class="page-title">Make-ready checklist</div>
+        <div class="page-sub">Unit turnover · Complete all steps before next arrival</div>
+
+        <!-- Unit tabs -->
+        <div class="hk-mr-unit-tabs">
+          <div class="hk-mr-tab mr-active" id="hk-tab-204" onclick="hkSetUnit('204')">
+            <div class="hk-mr-tab-name">Suite 204</div>
+            <div class="hk-mr-tab-sub" id="hk-tab-sub-204">⏱ In progress</div>
+          </div>
+          <div class="hk-mr-tab" id="hk-tab-108" onclick="hkSetUnit('108')">
+            <div class="hk-mr-tab-name">Suite 108</div>
+            <div class="hk-mr-tab-sub" id="hk-tab-sub-108">Checkout Apr 22</div>
+          </div>
         </div>
-        <div class="hk-card"><div class="hk-header">Upcoming — Apr 17</div>
-          <div class="hk-row"><div class="hk-icon">🧹</div><div class="hk-info"><div class="hk-name">Suite 204 — Room turnover</div><div class="hk-detail">Margaret Thompson checkout · 11:00 AM</div></div><div><div class="hk-cost">$30</div></div></div>
+
+        <!-- Booking context banner -->
+        <div class="hk-ctx-banner">
+          <div class="hk-ctx-left">
+            <div class="hk-ctx-icon" id="hk-ctx-icon">🏡</div>
+            <div>
+              <div class="hk-ctx-name" id="hk-ctx-name">Margaret Thompson · Trial stay</div>
+              <div class="hk-ctx-meta" id="hk-ctx-meta">Suite 204 · 1 bed / 1 bath · Meadowbrook Senior Living</div>
+            </div>
+          </div>
+          <div class="hk-ctx-dates">
+            <div class="hk-ctx-date-block"><div class="hk-ctx-date-label">Checkout</div><div class="hk-ctx-date-val" id="hk-ctx-checkout">Apr 17 · 11:00 AM</div></div>
+            <div class="hk-ctx-date-block"><div class="hk-ctx-date-label">Next arrival</div><div class="hk-ctx-date-val" id="hk-ctx-arrival">Apr 19 · 3:00 PM</div></div>
+            <div class="hk-ctx-date-block"><div class="hk-ctx-date-label">Window</div><div class="hk-ctx-date-val" style="color:var(--gold);font-weight:500;" id="hk-ctx-window">52 hrs</div></div>
+          </div>
+          <span class="hk-ctx-badge hk-badge-trial" id="hk-ctx-badge">Trial stay</span>
+        </div>
+
+        <!-- Complete banner -->
+        <div class="hk-complete-banner" id="hk-complete-banner" style="display:none;">
+          <div class="hk-complete-icon">✅</div>
+          <div><div class="hk-complete-title">Unit marked ready for guest</div><div class="hk-complete-sub" id="hk-complete-sub">All steps complete · Admin notified</div></div>
+          <button class="hk-reset-btn" onclick="hkResetUnit()">Start new turnover</button>
+        </div>
+
+        <!-- Progress strip -->
+        <div class="hk-prog-strip" id="hk-prog-strip">
+          <div class="hk-prog-step hk-step-active" id="hk-prog-1" onclick="hkSetStep(1)">
+            <div class="hk-prog-num hk-pn-active" id="hk-pnum-1">1</div>
+            <div><div class="hk-prog-label">Departure</div><div class="hk-prog-count" id="hk-pc-1">0 / 5 done</div></div>
+          </div>
+          <div class="hk-prog-step" id="hk-prog-2" onclick="hkSetStep(2)">
+            <div class="hk-prog-num hk-pn-idle" id="hk-pnum-2">2</div>
+            <div><div class="hk-prog-label">Full clean</div><div class="hk-prog-count" id="hk-pc-2">0 / 34 done</div></div>
+          </div>
+          <div class="hk-prog-step" id="hk-prog-3" onclick="hkSetStep(3)">
+            <div class="hk-prog-num hk-pn-idle" id="hk-pnum-3">3</div>
+            <div><div class="hk-prog-label">Arrival setup</div><div class="hk-prog-count" id="hk-pc-3">0 / 12 done</div></div>
+          </div>
+          <div class="hk-prog-step" id="hk-prog-4" onclick="hkSetStep(4)">
+            <div class="hk-prog-num hk-pn-idle" id="hk-pnum-4">4</div>
+            <div><div class="hk-prog-label">Sign-off</div><div class="hk-prog-count" id="hk-pc-4">Pending</div></div>
+          </div>
+        </div>
+
+        <!-- STEP 1: Departure -->
+        <div class="hk-step-sec hk-sec-active" id="hk-step-1">
+          <div class="hk-check-card">
+            <div class="hk-check-hdr"><div class="hk-hdr-dot hk-dot-red"></div><h3>Departure walkthrough</h3><span class="hk-timing">Within 30 min of checkout</span><span class="hk-done-count" id="hk-done-dep">0 / 5</span></div>
+            <div id="hk-tasks-dep"></div>
+          </div>
+          <div class="hk-issue-list" id="hk-issues-dep"></div>
+          <div class="hk-flag-area"><input class="hk-flag-input" id="hk-flag-dep" placeholder="Flag an issue (damage, missing item, maintenance needed)…"/><button class="hk-flag-btn" onclick="hkFlag('dep')">Flag issue</button></div>
+          <div class="hk-step-footer"><span class="hk-skip" onclick="hkSetStep(2)">Skip to clean →</span><button class="hk-complete-btn" onclick="hkCompleteStep(1)">Complete departure check →</button></div>
+        </div>
+
+        <!-- STEP 2: Full clean -->
+        <div class="hk-step-sec" id="hk-step-2">
+          <div class="hk-check-card">
+            <div class="hk-check-hdr"><div class="hk-hdr-dot hk-dot-amber"></div><h3>Bedroom &amp; common areas</h3><span class="hk-timing">~45 min</span><span class="hk-done-count" id="hk-done-bed">0 / 12</span></div>
+            <div id="hk-tasks-bed"></div>
+          </div>
+          <div class="hk-check-card">
+            <div class="hk-check-hdr"><div class="hk-hdr-dot hk-dot-amber"></div><h3>Bathroom</h3><span class="hk-timing">~20 min</span><span class="hk-done-count" id="hk-done-bath">0 / 11</span></div>
+            <div id="hk-tasks-bath"></div>
+          </div>
+          <div class="hk-check-card">
+            <div class="hk-check-hdr"><div class="hk-hdr-dot hk-dot-amber"></div><h3>Kitchen</h3><span class="hk-timing">~20 min</span><span class="hk-done-count" id="hk-done-kit">0 / 11</span></div>
+            <div id="hk-tasks-kit"></div>
+          </div>
+          <div class="hk-issue-list" id="hk-issues-clean"></div>
+          <div class="hk-flag-area"><input class="hk-flag-input" id="hk-flag-clean" placeholder="Flag an issue during clean…"/><button class="hk-flag-btn" onclick="hkFlag('clean')">Flag issue</button></div>
+          <div class="hk-step-footer"><span class="hk-skip" onclick="hkSetStep(1)">← Back</span><button class="hk-complete-btn" onclick="hkCompleteStep(2)">Complete clean →</button></div>
+        </div>
+
+        <!-- STEP 3: Arrival setup -->
+        <div class="hk-step-sec" id="hk-step-3">
+          <div class="hk-check-card">
+            <div class="hk-check-hdr"><div class="hk-hdr-dot hk-dot-blue"></div><h3>Pre-arrival staging</h3><span class="hk-timing">Complete 2 hr before check-in</span><span class="hk-done-count" id="hk-done-arr">0 / 12</span></div>
+            <div id="hk-tasks-arr"></div>
+          </div>
+          <div class="hk-issue-list" id="hk-issues-arr"></div>
+          <div class="hk-flag-area"><input class="hk-flag-input" id="hk-flag-arr" placeholder="Flag anything before guest arrives…"/><button class="hk-flag-btn" onclick="hkFlag('arr')">Flag issue</button></div>
+          <div class="hk-step-footer"><span class="hk-skip" onclick="hkSetStep(2)">← Back to clean</span><button class="hk-complete-btn" onclick="hkCompleteStep(3)">Complete setup →</button></div>
+        </div>
+
+        <!-- STEP 4: Sign-off -->
+        <div class="hk-step-sec" id="hk-step-4">
+          <div class="hk-signoff-card">
+            <div style="font-size:13px;font-weight:500;margin-bottom:3px;">Unit sign-off</div>
+            <div style="font-size:12px;color:var(--muted);">All three signatures required before marking the unit ready.</div>
+            <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:10px;" id="hk-signoff-summary"></div>
+            <div class="hk-signoff-grid">
+              <div class="hk-signoff-block"><label>Cleaned by</label><div class="hk-sign-line"></div><div class="hk-sign-name"><input style="border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--ink);width:100%;background:transparent;" placeholder="Name · Time"/></div></div>
+              <div class="hk-signoff-block"><label>Inspected by</label><div class="hk-sign-line"></div><div class="hk-sign-name"><input style="border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--ink);width:100%;background:transparent;" placeholder="Name · Time"/></div></div>
+              <div class="hk-signoff-block"><label>Approved for guest</label><div class="hk-sign-line"></div><div class="hk-sign-name"><input style="border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--ink);width:100%;background:transparent;" placeholder="Admin signature"/></div></div>
+            </div>
+            <button class="hk-submit-btn" onclick="hkMarkReady()">✓ Mark unit ready for guest</button>
+          </div>
+        </div>
+
+        <!-- PAR REFERENCE -->
+        <div class="hk-step-sec" id="hk-step-par">
+          <div style="font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">Par level reference — restock every turnover</div>
+          <div class="hk-par-grid">
+            <div class="hk-par-card">
+              <div class="hk-par-hdr"><div class="hk-hdr-dot hk-dot-green"></div>Bathroom consumables</div>
+              <div class="hk-par-row"><span class="hk-par-item">Toilet paper</span><span class="hk-par-qty">12 rolls</span><span class="hk-par-trigger">⚠ reorder at 4</span></div>
+              <div class="hk-par-row"><span class="hk-par-item">Shampoo / conditioner</span><span class="hk-par-qty">2 each</span><span class="hk-par-trigger">⚠ reorder at 1</span></div>
+              <div class="hk-par-row"><span class="hk-par-item">Body wash / soap</span><span class="hk-par-qty">2 units</span><span class="hk-par-trigger">⚠ reorder at 1</span></div>
+              <div class="hk-par-row"><span class="hk-par-item">Hand soap</span><span class="hk-par-qty">1 pump + 1 refill</span><span class="hk-par-trigger">⚠ no refill = reorder</span></div>
+              <div class="hk-par-row"><span class="hk-par-item">Disposable razors</span><span class="hk-par-qty">2</span><span class="hk-par-trigger">⚠ reorder at 0</span></div>
+              <div class="hk-par-row"><span class="hk-par-item">Toothbrush (sealed)</span><span class="hk-par-qty">2</span><span class="hk-par-trigger">⚠ reorder at 0</span></div>
+              <div class="hk-par-row"><span class="hk-par-item">Facial tissue</span><span class="hk-par-qty">2 boxes</span><span class="hk-par-trigger">⚠ reorder at 1</span></div>
+              <div class="hk-par-row"><span class="hk-par-item">Trash liners</span><span class="hk-par-qty">10 in cabinet</span><span class="hk-par-trigger">⚠ reorder at 5</span></div>
+            </div>
+            <div class="hk-par-card">
+              <div class="hk-par-hdr"><div class="hk-hdr-dot hk-dot-green"></div>Kitchen &amp; bedroom consumables</div>
+              <div class="hk-par-row"><span class="hk-par-item">Coffee (pods/ground)</span><span class="hk-par-qty">14 servings</span><span class="hk-par-trigger">⚠ reorder at 6</span></div>
+              <div class="hk-par-row"><span class="hk-par-item">Tea bags</span><span class="hk-par-qty">10 bags</span><span class="hk-par-trigger">⚠ reorder at 4</span></div>
+              <div class="hk-par-row"><span class="hk-par-item">Sugar / sweetener</span><span class="hk-par-qty">10 packets ea.</span><span class="hk-par-trigger">⚠ reorder at 4</span></div>
+              <div class="hk-par-row"><span class="hk-par-item">Paper towels</span><span class="hk-par-qty">2 rolls</span><span class="hk-par-trigger">⚠ reorder at 1</span></div>
+              <div class="hk-par-row"><span class="hk-par-item">Dish soap + sponge</span><span class="hk-par-qty">1 each (fresh)</span><span class="hk-par-trigger">⚠ every turnover</span></div>
+              <div class="hk-par-row"><span class="hk-par-item">Dishwasher pods</span><span class="hk-par-qty">6 pods</span><span class="hk-par-trigger">⚠ reorder at 2</span></div>
+              <div class="hk-par-row"><span class="hk-par-item">Kitchen trash bags</span><span class="hk-par-qty">5 in cabinet</span><span class="hk-par-trigger">⚠ reorder at 2</span></div>
+              <div class="hk-par-row"><span class="hk-par-item">Batteries AA / AAA</span><span class="hk-par-qty">4 each in drawer</span><span class="hk-par-trigger">⚠ reorder at 2</span></div>
+            </div>
+          </div>
+          <div class="hk-par-card" style="margin-bottom:10px;">
+            <div class="hk-par-hdr"><div class="hk-hdr-dot hk-dot-blue"></div>Linen minimums</div>
+            <div class="hk-par-row"><span class="hk-par-item">Sheet sets</span><span class="hk-par-qty">2 sets per bed</span><span class="hk-par-trigger">No stains / tears</span></div>
+            <div class="hk-par-row"><span class="hk-par-item">Pillowcases</span><span class="hk-par-qty">4 per bed</span><span class="hk-par-trigger">No discoloration</span></div>
+            <div class="hk-par-row"><span class="hk-par-item">Bath towels</span><span class="hk-par-qty">4 per unit</span><span class="hk-par-trigger">Retire after 50–75 washes</span></div>
+            <div class="hk-par-row"><span class="hk-par-item">Hand towels / washcloths</span><span class="hk-par-qty">4 each</span><span class="hk-par-trigger">No stains</span></div>
+            <div class="hk-par-row"><span class="hk-par-item">Bath mats</span><span class="hk-par-qty">2 per unit</span><span class="hk-par-trigger">Replace annually</span></div>
+          </div>
+          <div style="text-align:center;padding:6px 0;">
+            <span onclick="hkSetStep(hkActiveStep)" style="font-size:12px;color:var(--blue);cursor:pointer;">← Back to checklist</span>
+          </div>
+        </div>
+
+        <!-- Par levels nav link -->
+        <div style="margin-top:4px;padding:4px 0;">
+          <span onclick="hkSetStep('par')" style="font-size:12px;color:var(--blue);cursor:pointer;">📋 View par level reference →</span>
         </div>
       </div>
 
@@ -759,8 +1028,8 @@ function setRole(r){
   const nb=document.getElementById('btn-new');if(nb)nb.style.display=r==='hk'?'none':'';
   if(r==='hk'){
     let hkNav=document.getElementById('hk-nav-item');
-    if(!hkNav){hkNav=document.createElement('div');hkNav.className='nav-item';hkNav.id='hk-nav-item';hkNav.innerHTML='<span class="nav-icon">🧹</span>My tasks<span class="nav-badge">2</span>';hkNav.onclick=function(){sv(this,'v-hk');};document.querySelector('.sidebar').appendChild(hkNav);}
-    hkNav.style.display='';sv(hkNav,'v-hk');
+    if(!hkNav){hkNav=document.createElement('div');hkNav.className='nav-item';hkNav.id='hk-nav-item';hkNav.innerHTML='<span class="nav-icon">🧹</span>Make-ready<span class="nav-badge">2</span>';hkNav.onclick=function(){sv(this,'v-hk');hkRenderAll();hkSetStep(1);};document.querySelector('.sidebar').appendChild(hkNav);}
+    hkNav.style.display='';sv(hkNav,'v-hk');hkRenderAll();hkSetStep(1);
   } else {
     const hkNav=document.getElementById('hk-nav-item');if(hkNav)hkNav.style.display='none';
     svById('v-overview');document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
@@ -833,6 +1102,243 @@ function gCheckout(){document.getElementById('gs-confirmed').style.display='none
 function gSubmitIssue(){const b=document.getElementById('g-issue-btn');b.textContent='✓ Sent to staff';b.style.background='var(--green)';setTimeout(()=>{b.textContent='Send to staff';b.style.background='var(--gold)';document.querySelectorAll('.g-issue-btn').forEach(btn=>btn.classList.remove('selected'));},2500);}
 function gsReset(){document.getElementById('gs-checkout').style.display='none';document.getElementById('gs-welcome').style.display='flex';document.getElementById('gs-confirmed').style.display='none';}
 setComColor('#3A7FD5','#2260B0',document.querySelector('[onclick*="setComColor"]'));
+
+/* ── HK MAKE-READY ENGINE ── */
+const HK_TASKS={
+  dep:[
+    {t:'Guest has departed — confirm key returned to front desk',p:'critical'},
+    {t:'Walk all rooms — note any damage, stains, or missing items',p:'critical'},
+    {t:'Check for left-behind belongings — bag & label, bring to front desk',p:'required'},
+    {t:'Take departure photos (bed, bathroom, kitchen) — upload to unit record',p:'required'},
+    {t:'Flag any damage requiring maintenance before marking task done',p:'critical'},
+  ],
+  bed:[
+    {t:'Strip all bedding — sheets, pillowcases, duvet cover — send to laundry',p:'required'},
+    {t:'Wipe mattress with disinfecting spray — allow to air dry',p:'required'},
+    {t:'Replace with fresh sheet set, duvet cover, and pillowcases (see par)',p:'required'},
+    {t:'Vacuum mattress top and sides',p:'required'},
+    {t:'Vacuum all floors, carpets, and rugs — including under furniture edges',p:'required'},
+    {t:'Mop hard floors',p:'required'},
+    {t:'Dust all surfaces — nightstands, shelving, lamps, ceiling fan blades',p:'required'},
+    {t:'Clean mirrors and glass surfaces',p:'required'},
+    {t:'Empty all trash cans — reline with fresh bags',p:'required'},
+    {t:'Wipe light switches and door handles with disinfectant',p:'required'},
+    {t:'Wipe thermostat, TV remote, and any shared surfaces',p:'required'},
+    {t:'Wipe windowsills — check windows are locked',p:'optional'},
+  ],
+  bath:[
+    {t:'Remove all used towels — send to laundry',p:'required'},
+    {t:'Scrub toilet inside and outside, including base and behind',p:'critical'},
+    {t:'Scrub shower / bathtub — remove any soap scum or hair',p:'critical'},
+    {t:'Clean sink, faucet, and counter',p:'required'},
+    {t:'Clean mirror',p:'required'},
+    {t:'Mop / wipe floor including behind toilet',p:'required'},
+    {t:'Replace bath mat with clean spare',p:'required'},
+    {t:'Set out fresh towels (2 bath, 2 hand, 2 washcloth) — folded presentation',p:'required'},
+    {t:'Restock TP to par: 4 rolls visible, 8 in cabinet',p:'critical'},
+    {t:'Restock all toiletries to par (see par levels)',p:'required'},
+    {t:'Empty trash — reline',p:'required'},
+  ],
+  kit:[
+    {t:'Check all dishes / cookware — wash any left in sink or dishwasher',p:'required'},
+    {t:'Wipe all counter surfaces and backsplash',p:'required'},
+    {t:'Wipe stovetop and oven exterior',p:'required'},
+    {t:'Clean microwave interior — remove any food residue',p:'required'},
+    {t:'Wipe refrigerator exterior and handles',p:'required'},
+    {t:'Check refrigerator interior — discard any food left by guest',p:'critical'},
+    {t:'Clean coffee maker — run rinse cycle',p:'required'},
+    {t:'Restock coffee, tea, sugar, sweetener to par',p:'required'},
+    {t:'Restock paper towels, dish soap, sponge',p:'required'},
+    {t:'Empty trash — reline with fresh bag',p:'required'},
+    {t:'Wipe cabinet fronts and drawer handles',p:'optional'},
+  ],
+  arr:[
+    {t:'Verify fresh linens on bed — inspect for stains or defects',p:'critical'},
+    {t:'Set thermostat to 71°F — unit should be comfortable on arrival',p:'required'},
+    {t:'Turn on one lamp (not overhead) — warm, welcoming light',p:'required'},
+    {t:'Place personalized welcome card on bed or kitchen counter',p:'critical'},
+    {t:'Confirm WiFi card / instruction cards are displayed',p:'required'},
+    {t:'Place welcome packet on kitchen table or counter',p:'required'},
+    {t:'Confirm key or access card is ready for handoff',p:'critical'},
+    {t:'Test TV remote — confirm it works',p:'required'},
+    {t:'Test WiFi — connect a device and confirm internet access',p:'required'},
+    {t:'Place welcome snack / treat if provided',p:'optional'},
+    {t:'Final walkthrough — stand at the door and view unit as a first-time guest',p:'critical'},
+    {t:'Mark task complete in SuiteBird housekeeping queue',p:'critical'},
+  ]
+};
+const HK_UNITS={
+  '204':{name:'Margaret Thompson',type:'trial',icon:'🏡',badge:'Trial stay',badgeCls:'hk-badge-trial',checkout:'Apr 17 · 11:00 AM',arrival:'Apr 19 · 3:00 PM',window:'52 hrs',meta:'Suite 204 · 1 bed / 1 bath · Meadowbrook Senior Living'},
+  '108':{name:'James Wilson — F&F visit',type:'ff',icon:'👨‍👩‍👧',badge:'F&F stay',badgeCls:'hk-badge-ff',checkout:'Apr 22 · 11:00 AM',arrival:'Apr 24 · 2:00 PM',window:'75 hrs',meta:'Suite 108 · Studio · Meadowbrook Senior Living'},
+};
+let hkState={};
+['204','108'].forEach(u=>{hkState[u]={checks:{dep:[],bed:[],bath:[],kit:[],arr:[]},issues:{dep:[],clean:[],arr:[]},stepsDone:[false,false,false,false],done:false};});
+let hkActiveUnit='204';
+let hkActiveStep=1;
+
+function hkPriCls(p){return p==='critical'?'hk-pri-critical':p==='optional'?'hk-pri-optional':'hk-pri-required';}
+function hkPriLabel(p){return p==='critical'?'Critical':p==='optional'?'Optional':'Required';}
+
+function hkRenderTasks(grp,containerId,doneId){
+  const items=HK_TASKS[grp];
+  const checked=hkState[hkActiveUnit].checks[grp];
+  const el=document.getElementById(containerId);
+  if(!el)return;
+  el.innerHTML='';
+  items.forEach((item,i)=>{
+    const isChecked=checked.includes(i);
+    const row=document.createElement('div');
+    row.className='hk-task-row'+(isChecked?' hk-checked':'');
+    row.innerHTML=`<div class="hk-task-chk"><span class="hk-chk-mark">✓</span></div><div class="hk-task-label">${item.t}<br><span class="hk-task-pri ${hkPriCls(item.p)}">${hkPriLabel(item.p)}</span></div>`;
+    row.onclick=()=>{
+      const arr=hkState[hkActiveUnit].checks[grp];
+      const pos=arr.indexOf(i);
+      if(pos===-1)arr.push(i);else arr.splice(pos,1);
+      hkRenderTasks(grp,containerId,doneId);
+      hkUpdateProgress();
+    };
+    el.appendChild(row);
+  });
+  const done=checked.length;
+  const doneEl=document.getElementById(doneId);
+  if(doneEl)doneEl.textContent=done+' / '+items.length;
+}
+
+function hkUpdateProgress(){
+  const s=hkState[hkActiveUnit];
+  const p1=s.checks.dep.length,t1=HK_TASKS.dep.length;
+  const p2=s.checks.bed.length+s.checks.bath.length+s.checks.kit.length,t2=34;
+  const p3=s.checks.arr.length,t3=HK_TASKS.arr.length;
+  const pc1=document.getElementById('hk-pc-1');if(pc1)pc1.textContent=p1+' / '+t1+' done';
+  const pc2=document.getElementById('hk-pc-2');if(pc2)pc2.textContent=p2+' / '+t2+' done';
+  const pc3=document.getElementById('hk-pc-3');if(pc3)pc3.textContent=p3+' / '+t3+' done';
+  const pc4=document.getElementById('hk-pc-4');if(pc4)pc4.textContent=s.stepsDone[3]?'Complete':'Pending';
+  [1,2,3,4].forEach(n=>{
+    const el=document.getElementById('hk-prog-'+n);
+    const pnum=document.getElementById('hk-pnum-'+n);
+    if(!el||!pnum)return;
+    el.classList.remove('hk-step-active','hk-step-done');
+    pnum.classList.remove('hk-pn-active','hk-pn-done','hk-pn-idle');
+    if(n===hkActiveStep){el.classList.add('hk-step-active');pnum.classList.add('hk-pn-active');pnum.textContent=n;}
+    else if(s.stepsDone[n-1]){el.classList.add('hk-step-done');pnum.classList.add('hk-pn-done');pnum.textContent='✓';}
+    else{pnum.classList.add('hk-pn-idle');pnum.textContent=n;}
+  });
+  hkUpdateTabs();
+}
+
+function hkUpdateTabs(){
+  ['204','108'].forEach(u=>{
+    const tab=document.getElementById('hk-tab-'+u);
+    const sub=document.getElementById('hk-tab-sub-'+u);
+    if(!tab||!sub)return;
+    tab.className='hk-mr-tab'+(u===hkActiveUnit?' mr-active':'')+(hkState[u].done?' mr-done':'');
+    sub.textContent=hkState[u].done?'✓ Ready':u==='204'?'⏱ In progress':'Checkout Apr 22';
+  });
+  const badge=document.getElementById('nav-badge');
+  const pending=['204','108'].filter(u=>!hkState[u].done).length;
+  const hkNav=document.getElementById('hk-nav-item');
+  if(hkNav){const b=hkNav.querySelector('.nav-badge');if(b)b.textContent=pending;}
+}
+
+function hkSetUnit(u){
+  hkActiveUnit=u;hkActiveStep=1;
+  const unit=HK_UNITS[u];
+  const icon=document.getElementById('hk-ctx-icon');if(icon)icon.textContent=unit.icon;
+  const name=document.getElementById('hk-ctx-name');if(name)name.textContent=unit.name+' · '+unit.badge;
+  const meta=document.getElementById('hk-ctx-meta');if(meta)meta.textContent=unit.meta;
+  const co=document.getElementById('hk-ctx-checkout');if(co)co.textContent=unit.checkout;
+  const arr=document.getElementById('hk-ctx-arrival');if(arr)arr.textContent=unit.arrival;
+  const win=document.getElementById('hk-ctx-window');if(win)win.textContent=unit.window;
+  const badge=document.getElementById('hk-ctx-badge');if(badge){badge.textContent=unit.badge;badge.className='hk-ctx-badge '+unit.badgeCls;}
+  const cb=document.getElementById('hk-complete-banner');if(cb)cb.style.display=hkState[u].done?'flex':'none';
+  const ps=document.getElementById('hk-prog-strip');if(ps)ps.style.display=hkState[u].done?'none':'grid';
+  hkRenderAll();
+  hkSetStep(1);
+}
+
+function hkRenderAll(){
+  hkRenderTasks('dep','hk-tasks-dep','hk-done-dep');
+  hkRenderTasks('bed','hk-tasks-bed','hk-done-bed');
+  hkRenderTasks('bath','hk-tasks-bath','hk-done-bath');
+  hkRenderTasks('kit','hk-tasks-kit','hk-done-kit');
+  hkRenderTasks('arr','hk-tasks-arr','hk-done-arr');
+  hkRenderIssues('dep');hkRenderIssues('clean');hkRenderIssues('arr');
+  hkUpdateProgress();
+}
+
+function hkSetStep(n){
+  hkActiveStep=(n==='par')?hkActiveStep:n;
+  document.querySelectorAll('.hk-step-sec').forEach(s=>s.classList.remove('hk-sec-active'));
+  const target=document.getElementById(n==='par'?'hk-step-par':'hk-step-'+n);
+  if(target)target.classList.add('hk-sec-active');
+  if(n!=='par')hkUpdateProgress();
+}
+
+function hkCompleteStep(n){
+  hkState[hkActiveUnit].stepsDone[n-1]=true;
+  hkUpdateProgress();
+  if(n<4)hkSetStep(n+1);
+  else{const ss=document.getElementById('hk-signoff-summary');if(ss)hkBuildSignoffSummary();}
+}
+
+function hkBuildSignoffSummary(){
+  const s=hkState[hkActiveUnit];
+  const chips=[
+    {label:'Departure: '+s.checks.dep.length+'/5',ok:s.stepsDone[0]},
+    {label:'Clean: '+(s.checks.bed.length+s.checks.bath.length+s.checks.kit.length)+'/34',ok:s.stepsDone[1]},
+    {label:'Setup: '+s.checks.arr.length+'/12',ok:s.stepsDone[2]},
+  ];
+  const wrap=document.getElementById('hk-signoff-summary');if(!wrap)return;
+  wrap.innerHTML='';
+  chips.forEach(c=>{
+    const el=document.createElement('span');
+    el.style.cssText=`display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:500;background:${c.ok?'var(--green-l)':'#fff3cd'};color:${c.ok?'var(--green)':'#856404'};`;
+    el.textContent=(c.ok?'✓ ':'⏳ ')+c.label;
+    wrap.appendChild(el);
+  });
+}
+
+function hkFlag(area){
+  const inp=document.getElementById('hk-flag-'+area);
+  if(!inp)return;
+  const text=inp.value.trim();
+  if(!text)return;
+  hkState[hkActiveUnit].issues[area].push(text);
+  inp.value='';
+  hkRenderIssues(area);
+}
+
+function hkRenderIssues(area){
+  const list=document.getElementById('hk-issues-'+area);if(!list)return;
+  list.innerHTML='';
+  hkState[hkActiveUnit].issues[area].forEach((iss,i)=>{
+    const el=document.createElement('div');el.className='hk-issue-item';
+    el.innerHTML=`<span>⚠ ${iss}</span><span class="hk-issue-rm" onclick="hkRemoveIssue('${area}',${i})">✕</span>`;
+    list.appendChild(el);
+  });
+}
+
+function hkRemoveIssue(area,i){hkState[hkActiveUnit].issues[area].splice(i,1);hkRenderIssues(area);}
+
+function hkMarkReady(){
+  hkState[hkActiveUnit].done=true;
+  hkState[hkActiveUnit].stepsDone[3]=true;
+  const cb=document.getElementById('hk-complete-banner');if(cb)cb.style.display='flex';
+  const cs=document.getElementById('hk-complete-sub');if(cs)cs.textContent='Suite '+hkActiveUnit+' · All steps complete · Admin notified';
+  const ps=document.getElementById('hk-prog-strip');if(ps)ps.style.display='none';
+  document.querySelectorAll('.hk-step-sec').forEach(s=>s.classList.remove('hk-sec-active'));
+  hkUpdateTabs();
+}
+
+function hkResetUnit(){
+  hkState[hkActiveUnit]={checks:{dep:[],bed:[],bath:[],kit:[],arr:[]},issues:{dep:[],clean:[],arr:[]},stepsDone:[false,false,false,false],done:false};
+  const cb=document.getElementById('hk-complete-banner');if(cb)cb.style.display='none';
+  const ps=document.getElementById('hk-prog-strip');if(ps)ps.style.display='grid';
+  hkRenderAll();hkSetStep(1);hkUpdateTabs();
+}
+
+document.getElementById('hk-prog-4').addEventListener('click',hkBuildSignoffSummary);
+
 </script>
 </body>
 </html>
