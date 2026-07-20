@@ -427,8 +427,8 @@
     <div class="explain">
       <h3>A word you'll hear again</h3>
       <p><b>Micro-occupancy</b> is the practice of treating a vacant, move-in-ready unit as short-stay inventory. Instead of earning nothing while it waits for its permanent resident, the unit earns nightly revenue from guest stays, trial stays, and respite stays, and every guest who sleeps there is a warmer prospect than any web lead.</p>
-      <p>A community at 92% occupancy in the traditional sense can still be at 0% micro-occupancy. The two questions below measure the gap.</p>
-      <p><b>A quick example:</b> a 120-unit community at 92% occupancy has about 10 vacant units. If three are guest-ready and each earns 12 nights a month at $150 a night, that is $5,400 in new monthly revenue and a 40% micro-occupancy rate on those units (36 earned nights of 90 available). And every one of those nights is a prospect sleeping in your building.</p>
+      <p>The key idea: micro-occupancy is <b>additive</b>. It does not replace the occupancy rate you already report. It stacks on top of it, because it earns nights from units that traditional occupancy counts as empty.</p>
+      <p><b>A quick example:</b> a 120-unit community at 92% reports 92% to its board and its lender. Now three of its vacant units go guest-ready, each earning 12 nights a month at $150 a night. That is $5,400 in new monthly revenue, and those 36 earned nights, measured against the building's 3,600 available unit-nights, add a full point of occupancy. The community now operates at <b>93%: 92% traditional plus 1% micro-occupancy.</b> Same building, same census, higher occupancy and NOI. And every one of those nights is a prospect sleeping in your building.</p>
     </div>
 
     <div class="q" data-q="vacant_ready_units">
@@ -641,7 +641,7 @@
     </div></div>
     <div class="cap"><div class="glyph">O</div><div>
       <h3>Micro-occupancy analytics</h3>
-      <p>A second occupancy number alongside the one you already report: how many nights your vacant, move-in-ready units earned revenue instead of sitting dark, and what each of those nights produced in pipeline.</p>
+      <p>A second occupancy number that stacks on top of the one you already report: guest nights earned by vacant units, expressed as points added to your traditional occupancy rate, plus what each of those nights produced in revenue and pipeline.</p>
     </div></div>
     <div class="cap"><div class="glyph">P</div><div>
       <h3>Conversion pipeline</h3>
@@ -864,7 +864,7 @@ function updateMirror(){
   }
 
   if (a.vacant_ready_units && a.vacant_ready_units !== 'None'){
-    lines.push('<p>' + a.vacant_ready_units + ' move-in-ready units sit dark at any given time. At even a modest nightly rate, that is real micro-occupancy revenue left on the table every month, before counting the pipeline those stays would create.</p>');
+    lines.push('<p>' + a.vacant_ready_units + ' move-in-ready units sit dark at any given time. At even a modest nightly rate, that is real revenue left on the table every month, and occupancy points your building could be adding to the number it already reports.</p>');
   }
 
   if (a.turned_away && a.turned_away !== 'Never'){
